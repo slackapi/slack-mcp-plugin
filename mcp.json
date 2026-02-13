@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "slack": {
+      "url": "https://mcp.slack.com/mcp"//,
+      // "headers": {
+      //   "Authorization" :"Bearer xoxp-change-me"
+      // }
+    }
+  }
+}

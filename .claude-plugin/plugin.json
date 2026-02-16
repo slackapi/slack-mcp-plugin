@@ -1,0 +1,15 @@
+{
+  "name": "slack",
+  "description": "Slack MCP server integration for searching messages, sending communications, managing canvases, and more",
+  "version": "1.0.0",
+  "author": {
+    "name": "Slack",
+    "url": "https://slack.com"
+  },
+  "homepage": "https://github.com/slackapi/slack-mcp-cursor-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slackapi/slack-mcp-cursor-plugin"
+  },
+  "license": "MIT"
+}

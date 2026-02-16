@@ -1,6 +1,6 @@
-# Slack MCP Server for Cursor
+# Slack MCP Server
 
-This repository contains the configuration needed to integrate the Slack Model Context Protocol (MCP) server with Cursor IDE. The MCP enables your agents to interact directly with your Slack workspace, allowing you to search messages, send communications, manage canvases, and more—all through natural language.
+This repository contains the configuration needed to integrate the Slack Model Context Protocol (MCP) server with Cursor IDE and Claude Code. The MCP enables your agents to interact directly with your Slack workspace, allowing you to search messages, send communications, manage canvases, and more—all through natural language.
 
 ## Features
 
@@ -15,22 +15,46 @@ The Slack MCP server provides the following capabilities:
 
 Before setting up the Slack MCP server, ensure you have:
 
-- Cursor IDE installed
+- Cursor IDE or Claude Code CLI installed
 - Access to a Slack workspace with MCP integration approved by your workspace admin
 
-## Installation Instructions for Cursor
+## Installation
 
-Follow these steps to configure the Slack MCP server in Cursor:
+Choose the installation method for your IDE:
 
-### Step 1: Open Cursor Settings
+### Claude Code Plugin
+
+If you're using Claude Code CLI, you can install this as a plugin:
+
+```bash
+claude --plugin-dir /path/to/slack-mcp-cursor-plugin
+```
+
+Or test it locally during development:
+
+```bash
+git clone https://github.com/slackapi/slack-mcp-cursor-plugin.git
+cd slack-mcp-cursor-plugin
+claude --plugin-dir .
+```
+
+The Slack MCP server will be automatically configured when the plugin loads. Click the connect button that appears to authenticate into your Slack workspace.
+
+For more information about Claude Code plugins, see the [Claude Code plugin documentation](https://code.claude.com/docs/en/plugins).
+
+### Manual Configuration for Cursor
+
+Follow these steps to manually configure the Slack MCP server in Cursor:
+
+#### Step 1: Open Cursor Settings
 
 Navigate to **Cursor → Settings → Cursor Settings** (or use the keyboard shortcut `Cmd+,` on macOS, `Ctrl+,` on Windows/Linux).
 
-### Step 2: Navigate to MCP Tab
+#### Step 2: Navigate to MCP Tab
 
 In the Settings interface, click on the **MCP** tab to access MCP server configurations.
 
-### Step 3: Add Slack MCP Configuration
+#### Step 3: Add Slack MCP Configuration
 
 Add the following configuration to connect to the remote Slack MCP server:
 
@@ -47,11 +71,11 @@ Add the following configuration to connect to the remote Slack MCP server:
 }
 ```
 
-Save the configuration and restart Cursor if prompted. You will also see a connect button once added. Click that to authenticate into your Slack Workspace.
+Save the configuration. You will also see a connect button once added. Click that to authenticate into your Slack Workspace.
 
 ## Usage Examples
 
-Once configured, you can interact with Slack through your LLMs in Cursor using natural language:
+Once configured, you can interact with Slack through your AI assistant using natural language:
 
 - **Search messages**: "Search for messages about the product launch in the last week"
 - **Send messages**: "Send a message to #general channel saying the deployment is complete"
@@ -67,7 +91,6 @@ Once configured, you can interact with Slack through your LLMs in Cursor using n
 
 - **Remote server only**: This configuration connects to Slack's hosted MCP server. No local installation is required or supported.
 - **Admin approval required**: Your Slack workspace administrator must approve MCP integration before you can use this feature.
-- **Authentication**: The CLIENT_ID in the configuration is used for OAuth authentication with your Slack workspace.
 
 ## Questions or Issues?
 

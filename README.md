@@ -22,26 +22,6 @@ Before setting up the Slack MCP server, ensure you have:
 
 Choose the installation method for your IDE:
 
-### Claude Code Plugin
-
-If you're using Claude Code CLI, you can install this as a plugin:
-
-```bash
-claude --plugin-dir /path/to/slack-mcp-cursor-plugin
-```
-
-Or test it locally during development:
-
-```bash
-git clone https://github.com/slackapi/slack-mcp-cursor-plugin.git
-cd slack-mcp-cursor-plugin
-claude --plugin-dir .
-```
-
-The Slack MCP server will be automatically configured when the plugin loads. Click the connect button that appears to authenticate into your Slack workspace.
-
-For more information about Claude Code plugins, see the [Claude Code plugin documentation](https://code.claude.com/docs/en/plugins).
-
 ### Manual Configuration for Cursor
 
 Follow these steps to manually configure the Slack MCP server in Cursor:
@@ -72,6 +52,28 @@ Add the following configuration to connect to the remote Slack MCP server:
 ```
 
 Save the configuration. You will also see a connect button once added. Click that to authenticate into your Slack Workspace.
+
+### Claude Code Plugin (Coming soon)
+
+*NOTE: Not working currently, hopefully very soon*
+
+If you're using Claude Code CLI, you can install this as a plugin:
+
+```bash
+claude --plugin-dir /path/to/slack-mcp-cursor-plugin
+```
+
+Or test it locally during development:
+
+```bash
+git clone https://github.com/slackapi/slack-mcp-cursor-plugin.git
+cd slack-mcp-cursor-plugin
+claude --plugin-dir .
+```
+
+The Slack MCP server will be automatically configured when the plugin loads. Click the connect button that appears to authenticate into your Slack workspace.
+
+For more information about Claude Code plugins, see the [Claude Code plugin documentation](https://code.claude.com/docs/en/plugins).
 
 ## Usage Examples
 

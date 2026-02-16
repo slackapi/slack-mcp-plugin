@@ -47,7 +47,7 @@ Add the following configuration to connect to the remote Slack MCP server:
 }
 ```
 
-Save the configuration and restart Cursor if prompted.
+Save the configuration and restart Cursor if prompted. You will also see a connect button once added. Click that to authenticate into your Slack Workspace.
 
 ## Usage Examples
 

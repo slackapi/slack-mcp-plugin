@@ -1,6 +1,6 @@
-# Slack MCP Server
+# Slack Plugin
 
-This repository contains the configuration needed to integrate the Slack Model Context Protocol (MCP) server with Cursor IDE and Claude Code. The MCP enables your agents to interact directly with your Slack workspace, allowing you to search messages, send communications, manage canvases, and more—all through natural language.
+This repository contains the configuration needed to integrate Slack with Cursor IDE and Claude Code. The plugin enables your agents to interact directly with your Slack workspace, allowing you to search messages, send communications, manage canvases, and more—all through natural language.
 
 ## Features
 

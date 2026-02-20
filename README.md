@@ -53,7 +53,9 @@ The Claude plugin uses the following MCP configuration (`.mcp.json`):
 
 ### Cursor
 
-Follow these steps to manually configure the Slack MCP server in Cursor:
+You can use the following Add to Cursor button or follow the steps below to manually configure the Slack MCP server in Cursor:
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=Slack&config=eyJ1cmwiOiJodHRwczovL21jcC5zbGFjay5jb20vbWNwIiwiYXV0aCI6eyJDTElFTlRfSUQiOiIzNjYwNzUzMTkyNjI2Ljg5MDM0NjkyMjg5ODIifSwiaGVhZGVycyI6e319)
 
 #### Step 1: Open Cursor Settings
 

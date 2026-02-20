@@ -24,18 +24,12 @@ Choose the installation method for your IDE:
 
 ### Claude Code
 
-If you're using Claude Code CLI, you can install this as a plugin:
+If you're using Claude Code CLI, you can install this as a plugin by cloning it locally:
 
 ```bash
-claude mcp add-from-claude-plugin /path/to/slack-mcp-cursor-plugin
-```
-
-Or clone the repo and install locally:
-
-```bash
-git clone https://github.com/slackapi/slack-mcp-cursor-plugin.git
-cd slack-mcp-cursor-plugin
-claude mcp add-from-claude-plugin .
+git clone https://github.com/slackapi/slack-mcp-plugin.git
+cd slack-mcp-plugin
+claude --plugin-dir ./
 ```
 
 The Slack MCP server will be automatically configured when the plugin loads. You will be prompted to authenticate into your Slack workspace via OAuth.

@@ -1,6 +1,6 @@
 ---
 name: slack-docs
-description: "Search and read the official Slack platform documentation at docs.slack.dev. Use this skill to answer conceptual or how-to questions about Slack features like the Events API, OAuth, Socket Mode, app manifests, webhooks, modals, and App Home. You can also use it to look up, fetch, or summarize specific guide pages from provided docs.slack.dev links."
+description: "Search and read the official Slack platform documentation at docs.slack.dev. Use this skill to answer conceptual or how-to questions about Slack features. You can also use it to look up, fetch, or summarize specific guide pages from provided docs.slack.dev links."
 argument-hint: "[topic or docs.slack.dev URL]"
 ---
 
@@ -22,7 +22,7 @@ If `$0` is provided, it is either a `docs.slack.dev` URL (jump to the **Fast Pat
 
 > **DO NOT rules:**
 >
-> - DO NOT invent or guess documentation URLs. Get them from the search API, the sitemap, or a link the developer gave you then verify by fetching.
+> - DO NOT invent documentation URLs. Get them from the search API, the sitemap, or a link the developer gave you then verify by fetching.
 > - DO NOT paraphrase a page you have not actually fetched. If a fetch fails, say so rather than filling the gap from memory.
 > - DO NOT assume every URL has a `.md` version. If a fetch returns an error, fall back to the search API or the sitemap (Step 1) rather than guessing another URL.
 
@@ -36,7 +36,7 @@ If the developer pasted a `https://docs.slack.dev/...` link, skip discovery and 
 
 ## Step 1: Discover the Page (search)
 
-Use the docs **search API** to find candidate pages. WebFetch (or `curl` via the Bash tool) this URL, with the query URL-encoded and a `category` to scope the results:
+Use the docs **search API** to find candidate pages. WebFetch this URL, with the query URL-encoded and a `category` to scope the results:
 
 ```text
 https://docs.slack.dev/api/v1/search?query=<url-encoded query>&category=<category>&limit=5

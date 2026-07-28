@@ -70,8 +70,23 @@ SCENARIOS: list[Scenario] = [
         "accepted_tools": ["slack_search_channels"],
     },
     {
-        "id": "skill-slack-cli-socket-mode",
+        "id": "skill-slack-docs-socket-mode",
         "prompt": "Search the Slack developer documentation for how to use socket mode",
+        "accepted_tools": ["slack-docs"],
+    },
+    {
+        "id": "skill-slack-docs-events-api-concept",
+        "prompt": "How does the Events API delivery model work?",
+        "accepted_tools": ["slack-docs"],
+    },
+    {
+        "id": "skill-slack-docs-guide-url",
+        "prompt": "Summarize this docs page for me: https://docs.slack.dev/apis/events-api/using-socket-mode",
+        "accepted_tools": ["slack-docs"],
+    },
+    {
+        "id": "skill-slack-cli-run-local",
+        "prompt": "Run my Slack app locally for development from the terminal",
         "accepted_tools": ["slack-cli"],
     },
     {

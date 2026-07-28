@@ -21,7 +21,7 @@ PLUGIN_MANIFEST = Path(__file__).parent.parent / ".claude-plugin" / "plugin.json
 PLUGIN_NAME = json.loads(PLUGIN_MANIFEST.read_text())["name"]
 
 # Skill inventory (single source of truth)
-EXPECTED_SKILLS = ("create-slack-app", "block-kit", "slack-api", "slack-cli")
+EXPECTED_SKILLS = ("create-slack-app", "block-kit", "slack-api", "slack-cli", "slack-docs")
 
 # Gemini judge model. Any env var whose name starts with GEMINI_API_KEY contributes a
 # key to the pool; blank values are skipped so an empty GEMINI_API_KEY= doesn't sneak in.

@@ -7,7 +7,7 @@ Installing the plugin sets up two things:
 * **[Skills](#skills)**. Skills supercharge you and your agents when developing Slack apps.
 * **[Slack MCP Server connection](/ai/slack-mcp-server)**. The Slack MCP server lets you and your agent interact directly with your Slack workspace, such as searching channels, sending messages, and managing canvases.
 
-The Slack MCP server is configured automatically when the plugin loads. You'll be prompted to authenticate into your Slack workspace via OAuth. For full setup details, see [Connect to Claude](/ai/slack-mcp-server/connect-to-claude).
+The Slack MCP server is configured automatically when the plugin loads. You'll be prompted to authenticate into your Slack workspace via OAuth. Full setup details vary depending on the AI tool you are using.
 
 ---
 

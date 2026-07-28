@@ -84,7 +84,7 @@ When a command requires `--app` or `--team`:
 
 ## Step 3: Searching Documentation (`slack docs search`)
 
-Search Slack's developer documentation directly from the terminal. This is the CLI-based path to the same docs; for general documentation questions ("how does X work in Slack?", looking up a guide or reference page) prefer the `slack:slack-docs` skill, which searches and reads `docs.slack.dev` without needing the CLI installed. Reach for `slack docs search` when the developer is already working in the terminal and specifically wants a CLI lookup.
+Search Slack's developer documentation directly from the terminal.
 
 ```bash
 SLACK_CMD docs search "<query>" --output=text --limit=5

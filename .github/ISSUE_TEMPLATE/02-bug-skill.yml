@@ -1,0 +1,113 @@
+name: Skill or command bug
+description: Report a bug in a skill or slash command
+labels: ["bug", "area:skills"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug in a skill or slash command. Please tell us
+        which skill or command is affected and how to reproduce it.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Which is affected?
+      options:
+        - Skill
+        - Slash command
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Name of the skill or command
+      description: |
+        For example: `slack-messaging`, `create-slack-app`, `/slack:standup`.
+        Leave blank if you're not sure.
+      placeholder: e.g., slack-messaging or /slack:standup
+    validations:
+      required: false
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: |
+        Run `/plugin` inside Claude Code, or check the plugin listing in Cursor.
+      placeholder: e.g., 1.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      description: Which AI tool were you using?
+      options:
+        - Claude Code
+        - Cursor
+        - Other (please describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: client-version
+    attributes:
+      label: Client version
+      description: Version of Claude Code, Cursor, or your MCP client
+      placeholder: e.g., Claude Code 2.0.14
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: e.g., macOS 14.5, Ubuntu 22.04, Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you ask the AI, and what did the skill/command do?
+      placeholder: |
+        1. Ran `/slack:summarize-channel #general`
+        2. ...
+        3. Saw ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Include error messages, output, or screenshots.
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Optional. Logs, related issues, edge cases, etc.
+    validations:
+      required: false

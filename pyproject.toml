@@ -22,7 +22,7 @@ tools = [
     "rumdl>=0.2,<1.0",
     "mypy>=1.11,<2.0",
     "types-PyYAML>=6.0,<7.0",
-    "types-Markdown>=3.5,<4.0"
+    "types-Markdown>=3.5,<4.0",
 ]
 
 # This project is installed only to run the test suite; the importable package
@@ -49,7 +49,15 @@ indent-style = "space"
 
 # rumdl: markdownlint-compatible linter for the plugin's authored markdown.
 [tool.rumdl]
-include = ["skills/**/*.md", "commands/*.md", "README.md", "AGENTS.md"]
+include = [
+    "skills/**/*.md",
+    "commands/*.md",
+    "README.md",
+    "AGENTS.md",
+    ".github/maintainers_guide.md",
+    ".github/contributing.md",
+    ".github/CODE_OF_CONDUCT.md",
+]
 exclude = [".venv", "node_modules", ".changeset"]
 respect-gitignore = true
 # Disable rules that conflict with the skill-authoring style:

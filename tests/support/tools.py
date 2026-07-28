@@ -11,7 +11,7 @@ from tests.skill import discover_skills
 
 __all__ = ["get_all_skill_tools", "get_slack_mcp_tools"]
 
-_CLIENT_INFO = types.Implementation(name="slack-mcp-skills-tests", version="0.0.0")
+_CLIENT_INFO = types.Implementation(name="slack-skills-tests", version="0.0.0")
 
 
 def get_all_skill_tools() -> list[ToolCall]:

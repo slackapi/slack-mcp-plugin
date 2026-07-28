@@ -1,0 +1,101 @@
+name: MCP bug
+description: Report a bug in the Slack MCP server or its tools
+labels: ["bug", "area:mcp"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an MCP bug.
+
+        **Heads up:** this repository does not host the Slack MCP Server itself,
+        so bugs in the MCP Server can't be fixed here — but we can share your
+        feedback internally with the Slack MCP Server team.
+
+        For outages, rate limits, or other errors specific to your Slack team,
+        please report the issue to
+        [Slack Developer Platform Support](https://slack.com/help/requests/new)
+        so they can work with you privately to diagnose and resolve it.
+
+        Please fill out as much detail as you can — repro steps and version
+        info help us the most.
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: |
+        Run `/plugin` inside Claude Code, or check the plugin listing in Cursor.
+      placeholder: e.g., 1.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      description: Which AI tool were you using?
+      options:
+        - Claude Code
+        - Cursor
+        - Other (please describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: client-version
+    attributes:
+      label: Client version
+      description: Version of Claude Code, Cursor, or your MCP client
+      placeholder: e.g., Claude Code 2.0.14
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: e.g., macOS 14.5, Ubuntu 22.04, Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Ask the AI to "..."
+        2. The MCP tool call to `...` runs
+        3. See error / unexpected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Include error messages, tool responses, or screenshots.
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Optional. Logs, related issues, workspace permissions context, etc.
+    validations:
+      required: false

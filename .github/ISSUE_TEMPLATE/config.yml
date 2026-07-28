@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Slack Developer Platform Support
+    url: https://slack.com/help/requests/new
+    about: |
+      For outages, rate limits, or other errors specific to your Slack team,
+      please report the issue to Slack Developer Platform Support. They can
+      work with you privately to diagnose and resolve the problem.

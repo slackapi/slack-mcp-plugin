@@ -1,0 +1,41 @@
+name: MCP feature request
+description: Request a new MCP tool or an improvement to the MCP server
+labels: ["enhancement", "area:mcp"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new MCP tool or an improvement to an existing one?
+        Tell us what problem you're trying to solve.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Focus on the outcome, not a specific implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would the new tool or improvement look like?
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional. Other tools, workflows, or workarounds you've tried.
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Optional. Related issues, links, examples.
+    validations:
+      required: false

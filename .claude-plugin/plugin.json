@@ -6,6 +6,6 @@
     "name": "Slack",
     "url": "https://slack.com"
   },
-  "homepage": "https://github.com/slackapi/slack-mcp-plugin",
+  "homepage": "https://github.com/slackapi/slack-skills-plugin",
   "license": "MIT"
 }

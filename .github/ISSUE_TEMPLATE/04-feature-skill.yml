@@ -1,0 +1,55 @@
+name: Skill or command feature request
+description: Request a new skill, a new slash command, or an improvement to an existing one
+labels: ["enhancement", "area:skills"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new skill, a new slash command, or an improvement to
+        an existing one? Tell us what problem you're trying to solve.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change is this?
+      options:
+        - New skill
+        - New slash command
+        - Improvement to an existing skill
+        - Improvement to an existing slash command
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Focus on the outcome, not a specific implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: |
+        What would the new skill, command, or improvement look like? Include
+        example prompts if you have them.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional. Other tools, workflows, or workarounds you've tried.
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Optional. Related issues, links, examples.
+    validations:
+      required: false

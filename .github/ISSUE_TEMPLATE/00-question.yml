@@ -1,0 +1,26 @@
+name: Question
+description: Ask a question about the Slack MCP or Skills plugin
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? Please provide as much context as possible so we can help.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Anything you've already tried, links to relevant docs, or the outcome
+        you're trying to reach.
+    validations:
+      required: false

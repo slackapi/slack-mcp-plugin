@@ -1,0 +1,33 @@
+name: Documentation
+description: Report a problem or suggest an improvement to the documentation
+labels: ["docs"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the docs. Point us at the specific page or
+        section and tell us what needs to change.
+
+  - type: input
+    id: location
+    attributes:
+      label: Where is the docs issue?
+      description: URL or path to the docs page, README section, or SKILL.md file.
+      placeholder: e.g., https://docs.slack.dev/... or skills/block-kit/SKILL.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong or missing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested change
+      description: Optional. Draft text or a description of the fix.
+    validations:
+      required: false

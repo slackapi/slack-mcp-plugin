@@ -1,6 +1,6 @@
 ---
 name: slack-cli
-description: Use the Slack CLI to create, run, and manage Slack apps from the terminal. Use whenever the developer wants to log in, add a team, switch workspaces, or authenticate with Slack; whenever Slack CLI commands are needed (local development with `slack run`, managing app lifecycle, the manifest); or when searching the Slack developer documentation for any topic (socket mode, the Events API, OAuth, manifests, Bolt).
+description: Use the Slack CLI to create, run, and manage Slack apps from the terminal. Use whenever the developer wants to log in, add a team, switch workspaces, or authenticate with Slack; whenever Slack CLI commands are needed (local development with `slack run`, managing app lifecycle, the manifest).
 ---
 
 # Slack CLI
@@ -90,12 +90,11 @@ Search Slack's developer documentation directly from the terminal.
 SLACK_CMD docs search "<query>" --output=text --limit=5
 ```
 
-Use `--output=text` for concise terminal-readable results. Use this:
+Use `--output=text` for concise terminal-readable results. Use this when you are already running CLI commands and want to:
 
-- Before implementing a Slack feature you have not used before
-- When the developer asks "how does X work in Slack?"
-- To verify API behavior or required scopes
-- To look up Block Kit elements, event types, or method parameters
+- Check a Slack feature before implementing it
+- Verify API behavior or required scopes
+- Look up Block Kit elements, event types, or method parameters
 
 ---
 

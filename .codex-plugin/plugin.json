@@ -1,0 +1,28 @@
+{
+  "name": "slack",
+  "version": "1.1.0",
+  "description": "Slack skills for building apps with the Slack CLI, Bolt, Web API, and Block Kit",
+  "author": {
+    "name": "Slack",
+    "url": "https://slack.com"
+  },
+  "homepage": "https://docs.slack.dev/ai/slack-skills-plugin",
+  "repository": "https://github.com/slackapi/slack-skills-plugin",
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": {},
+  "interface": {
+    "displayName": "Slack",
+    "shortDescription": "Slack skills for your AI tools",
+    "longDescription": "Skills for building Slack apps with the Slack CLI and Bolt, calling Web API methods, and composing Block Kit layouts, plus skills for searching and messaging in Slack when a Slack MCP server is connected.",
+    "defaultPrompt": "Help me build a Slack app with the Slack CLI and Bolt.",
+    "developerName": "Slack",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://docs.slack.dev/ai/slack-skills-plugin"
+  }
+}

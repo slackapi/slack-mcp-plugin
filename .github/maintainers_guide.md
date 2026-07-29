@@ -15,6 +15,8 @@ Maintaining this repo requires:
   Code rather than traditional CLI tooling.
 - **[Cursor][cursor]**: an alternative agentic coding environment. Useful for
   verifying that skills and commands work outside Claude Code before release.
+- **[Codex][codex-cli]**: another agentic coding environment. Useful for
+  verifying that the skills work outside Claude Code before release.
 - **Git**: standard version control.
 - **[GitHub CLI (`gh`)][gh-cli]**: for creating PRs as drafts and managing
   issues.
@@ -134,6 +136,30 @@ This copies the plugin into `~/.cursor/plugins/slack@local` and registers it.
 To remove it, run `make cursor-uninstall`. (`make clean` also runs the Cursor
 uninstall, in addition to removing the virtualenv and other generated files.)
 
+### Testing in Codex
+
+Codex loads plugins only from a marketplace. The repo ships a development marketplace at
+`.agents/plugins/marketplace.json` that points at this checkout, so you can add
+it as a local marketplace and install the plugin from it.
+
+Register the local marketplace and install the `slack` plugin:
+
+```sh
+codex plugin marketplace add ./
+codex plugin add slack@slack-dev
+```
+
+`codex plugin list` shows the plugin; `codex /plugins` opens the same flow interactively. Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention, for example `$block-kit`.
+
+To remove it
+
+```sh
+codex plugin remove slack@slack-dev
+codex plugin marketplace remove slack-dev
+```
+
+Codex support currently ships only the skills; the hosted MCP server is not yet wired into the Codex surface.
+
 ---
 
 ## Versioning
@@ -215,6 +241,7 @@ Patch and minor updates are auto-approved and auto-merged via the
 
 [claude-code]: https://claude.ai/code
 [cursor]: https://cursor.com
+[codex-cli]: https://developers.openai.com/codex/cli
 [gh-cli]: https://cli.github.com
 [conv-commits]: https://www.conventionalcommits.org
 [semver]: https://semver.org

@@ -11,6 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 PACKAGE_JSON_PATH = REPO_ROOT / "package.json"
 CLAUDE_PLUGIN_PATH = REPO_ROOT / ".claude-plugin" / "plugin.json"
 CURSOR_PLUGIN_PATH = REPO_ROOT / ".cursor-plugin" / "plugin.json"
+CODEX_PLUGIN_PATH = REPO_ROOT / ".codex-plugin" / "plugin.json"
 
 
 def read_version(package_path: Path) -> str:
@@ -32,6 +33,7 @@ def main() -> None:
     version = read_version(PACKAGE_JSON_PATH)
     write_version(CLAUDE_PLUGIN_PATH, version)
     write_version(CURSOR_PLUGIN_PATH, version)
+    write_version(CODEX_PLUGIN_PATH, version)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "slack",
-  "description": "Slack integration for searching messages, sending communications, managing canvases, and more",
+  "description": "Bring Slack into your AI tools with a Slack MCP server and Slack skills",
   "version": "1.1.0",
   "author": {
     "name": "Slack",
     "url": "https://slack.com"
   },
-  "homepage": "https://github.com/slackapi/slack-skills-plugin",
+  "homepage": "https://docs.slack.dev/ai/slack-skills-plugin",
+  "repository": "https://github.com/slackapi/slack-skills-plugin",
   "license": "MIT"
 }

@@ -6,7 +6,7 @@
     "name": "Slack",
     "url": "https://slack.com"
   },
-  "homepage": "https://docs.slack.dev",
+  "homepage": "https://docs.slack.dev/ai/slack-skills-plugin",
   "repository": "https://github.com/slackapi/slack-skills-plugin",
   "license": "MIT",
   "skills": "./skills/",
@@ -23,6 +23,6 @@
       "Read",
       "Write"
     ],
-    "websiteURL": "https://docs.slack.dev/ai/mcp-server/"
+    "websiteURL": "https://docs.slack.dev/ai/slack-skills-plugin"
   }
 }

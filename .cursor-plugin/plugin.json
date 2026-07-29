@@ -4,7 +4,10 @@
   "version": "1.1.0",
   "mcpServers": "../.cursor-mcp.json",
   "author": {
-    "name": "Slack"
+    "name": "Slack",
+    "url": "https://slack.com"
   },
+  "homepage": "https://docs.slack.dev/ai/slack-skills-plugin",
+  "repository": "https://github.com/slackapi/slack-skills-plugin",
   "skills": "./skills/"
 }

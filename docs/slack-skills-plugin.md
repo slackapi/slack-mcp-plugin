@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code and Cursor.
+The [Slack MCP and Skills Plugin](https://github.com/slackapi/slack-skills-plugin) for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the entire plugin with Claude Code and Cursor, and you can use the skills with Codex.
 
 Installing the plugin sets up two things:
 
@@ -32,6 +32,23 @@ The plugin is published on the [official Cursor Marketplace](https://cursor.com/
 ```
 
 Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
+
+### Installing the plugin for Codex
+
+You can use the skills from The Slack MCP and Skills Plugin with Codex, with the exception of the `slack-search` skill that requires an MCP connection.
+
+Codex loads plugins from a marketplace. The repository ships a development marketplace at `.agents/plugins/marketplace.json` that points at your local checkout. From a clone of the [`slack-skills-plugin`](https://github.com/slackapi/slack-skills-plugin) repository, register the marketplace and install the plugin:
+
+```sh
+codex plugin marketplace add ./
+codex plugin add slack@slack-dev
+```
+
+Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention:
+
+```
+$block-kit
+```
 
 ---
 

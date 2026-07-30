@@ -1,6 +1,6 @@
 ---
 name: block-kit
-description: 'Help developers build and validate Block Kit layouts for Slack messages, modals, and Home tabs. Provides authoritative block references and validates with the blocks.validate API. Use this skill whenever the developer wants to compose Slack message layouts, build modals/forms/dialogs, design Home tab interfaces, create interactive messages with buttons or menus, modify existing Block Kit JSON, or asks about any Slack UI component (sections, actions, inputs, headers, alerts, tables, carousels). Also trigger when they mention "blocks", "Block Kit Builder", or paste JSON containing block structures like `"type": "section"`.'
+description: 'Help developers build and validate Block Kit layouts for Slack messages, modals, and Home tabs. Provides authoritative block references and validates with the blocks.validate API. Use this skill whenever the developer wants to compose Slack message layouts, build modals/forms/dialogs, design Home tab interfaces, create interactive messages with buttons or menus, modify existing Block Kit JSON, or asks about any Slack UI component (sections, actions, inputs, headers, alerts, tables, carousels). Also trigger when they mention "blocks", "Block Kit Builder", want to preview or see the rendered version of blocks, or paste JSON containing block structures like `"type": "section"`.'
 argument-hint: "[message | modal | home-tab]"
 ---
 
@@ -170,7 +170,7 @@ Present the complete payload to the developer in the Step 1 surface structure.
 
 ---
 
-## Step 5: Validate with blocks.validate
+## Step 5: Validate
 
 **Always validate.** `blocks.validate` is a public Web API method, so no auth token is required.
 
@@ -204,13 +204,6 @@ curl -s -X POST 'https://slack.com/api/blocks.validate' \
   -d 'view={ "type": "modal", "title": ..., "blocks": [...] }'
 ```
 
-**For large payloads**, if the JSON is complex or contains special characters, write it to a temp file to avoid shell escaping issues:
-
-```bash
-curl -s -X POST 'https://slack.com/api/blocks.validate' \
-  --data-urlencode "blocks@/tmp/blocks.json"
-```
-
 ### 5b. Handle the response
 
 **Success:**
@@ -241,17 +234,8 @@ Tell the developer their blocks are valid.
 When validation fails:
 
 1. Read each error. `pointer` is a JSON pointer to the offending node (e.g., `/0` = first block, `/2/elements/1` = second element of the third block, `/0/text/type` = the `type` field of the first block's text object). `message` describes the problem, and `constraint` (when present) names the rule that failed and its expected values.
-2. Explain the error to the developer in plain language.
-3. Fix the JSON. For the authoritative meaning of an error code and the field requirements behind it, consult the live method doc (`https://docs.slack.dev/reference/methods/blocks.validate.md`) and the relevant block/element/composition-object page you fetched in Steps 3-4.
-4. Re-validate. Repeat until `"ok": true`.
-
-### Escape Hatch
-
-If validation fails 3 times on the same error:
-
-1. Present the raw error and current JSON to the developer
-2. Offer to open the JSON in Block Kit Builder for visual debugging: `https://app.slack.com/block-kit-builder`
-3. Ask if they want to simplify the layout to avoid the constraint
+2. Fix the JSON. For the authoritative meaning of an error code and the field requirements behind it, consult the live method doc (`https://docs.slack.dev/reference/methods/blocks.validate.md`) and the relevant block/element/composition-object page you fetched in Steps 3-4.
+3. Re-validate. Repeat until `"ok": true`.
 
 ---
 
@@ -265,7 +249,19 @@ Building the payload is this skill's job; sending it (`chat.postMessage`, `views
 
 ### Preview it
 
-Offer a Block Kit Builder link so the developer can see a live preview and tweak visually: `https://app.slack.com/block-kit-builder`. Builder needs an object (`{ "blocks": [...] }` or a full view object), not a bare array. Suggest this proactively when the developer says something is "not quite right" but can't articulate what, when the layout has 10+ blocks, or when iteration isn't converging.
+Help the developer view their layout with the **Block Kit Builder**. Prefer the Slack CLI if it is installed. The CLI automatically loads the blocks, saving the developer from copying and pasting. If the CLI is not available, provide the standard Builder link instead.
+
+**Path A: Slack CLI (preferred).**
+
+Use the `slack:slack-cli` skill, **Step 1: Detect the Slack CLI**, to check whether the public CLI is installed and resolve its command (`SLACK_CMD`).
+
+If the CLI is available, run `SLACK_CMD blocks preview --help` to see how to pass the blocks and open the preview. The command loads the blocks into the Block Kit Builder in the developer's browser.
+
+Because you run the CLI non-interactively, this command also needs a `--team` flag. Resolve the team ID with the `slack:slack-cli` skill, **Step 2: Command Discovery via Help**, whose "Resolving `--app` and `--team` values" guidance covers running `SLACK_CMD auth list`; Any authenticated workspace works for a preview, if several are available, pick one and mention which you used rather than blocking on the choice.
+
+**Path B: Block Kit Builder link (fallback, when the CLI isn't installed).**
+
+Offer the Block Kit Builder link so the developer can paste the JSON in and tweak visually: `https://app.slack.com/block-kit-builder`. Builder needs an object (`{ "blocks": [...] }` or a full view object), not a bare array.
 
 ---
 

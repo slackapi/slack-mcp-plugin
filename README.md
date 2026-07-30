@@ -19,11 +19,13 @@ The Slack MCP server is configured automatically. You'll be prompted to authenti
 
 ### Cursor
 
-The plugin is published on the [official Cursor Marketplace](https://cursor.com/marketplace/slack). Install it directly into Cursor:
+The plugin is published on the [official Cursor Marketplace](https://cursor.com/marketplace/slack). Install it from inside Cursor:
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=slack&config=eyJ1cmwiOiJodHRwczovL21jcC5zbGFjay5jb20vbWNwIiwiYXV0aCI6eyJDTElFTlRfSUQiOiIzNjYwNzUzMTkyNjI2Ljg5MDM0NjkyMjg5ODIifX0%3D)
+```text
+/add-plugin slack
+```
 
-After install, Cursor surfaces a connect button - use it to authenticate to your Slack workspace.
+This installs the skills, commands, and MCP server together. You'll be prompted to authenticate to your Slack workspace via OAuth on first use.
 
 ## Features
 

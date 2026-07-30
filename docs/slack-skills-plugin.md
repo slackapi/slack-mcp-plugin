@@ -25,9 +25,13 @@ The plugin is published on the [official Claude marketplace](https://claude.com/
 
 ### Installing the plugin for Cursor
 
-The plugin is published on the [official Cursor Marketplace](https://cursor.com/marketplace/slack). You can install the plugin by clicking the nifty button below:
+The plugin is published on the [official Cursor Marketplace](https://cursor.com/marketplace/slack). You can install the plugin directly from a Cursor Agent chat with a slash command:
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=slack&config=eyJ1cmwiOiJodHRwczovL21jcC5zbGFjay5jb20vbWNwIiwiYXV0aCI6eyJDTElFTlRfSUQiOiIzNjYwNzUzMTkyNjI2Ljg5MDM0NjkyMjg5ODIifX0=")
+```sh
+/add-plugin slack
+```
+
+Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
 
 ---
 

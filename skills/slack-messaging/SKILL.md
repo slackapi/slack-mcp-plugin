@@ -1,6 +1,6 @@
 ---
 name: slack-messaging
-description: Compose and format effective Slack messages sent via the Slack MCP tools. Use whenever writing, drafting, or improving a Slack message, announcement, reply, or canvas. Covers standard markdown formatting, message structure, thread etiquette, reactions, and scheduling.
+description: Compose and format effective Slack messages sent via the Slack MCP tools. Use whenever writing, drafting, scheduling, or improving a Slack message, announcement, or reply. Covers standard markdown formatting, message structure, thread etiquette, reactions, and scheduling, and points to the right dialect for canvases and Block Kit.
 ---
 
 # Slack Messaging Best Practices
@@ -9,11 +9,11 @@ This skill provides guidance for composing well-formatted, effective Slack messa
 
 ## When to Use
 
-Apply this skill whenever composing, drafting, or helping the user write a Slack message, including when using `slack_send_message`, `slack_send_message_draft`, `slack_schedule_message`, or `slack_create_canvas`.
+Apply this skill whenever composing, drafting, or helping the user write a Slack message, including when using `slack_send_message`, `slack_send_message_draft`, or `slack_schedule_message`. The formatting rules below cover these message tools. `slack_create_canvas` uses a different, richer markdown dialect — see the Canvas note below.
 
 ## Formatting
 
-The Slack MCP messaging tools accept **standard markdown** and convert it to Slack formatting on send. Write normal markdown. Do **not** use Slack's legacy `mrkdwn` syntax (`*bold*`, `~strike~`); those single-character forms mean something different in standard markdown. Each text element is limited to ~5000 characters.
+The message tools (`slack_send_message`, `slack_send_message_draft`, `slack_schedule_message`) accept **standard markdown** and convert it to Slack formatting on send. Write normal markdown. Do **not** use Slack's legacy `mrkdwn` syntax (`*bold*`, `~strike~`); those single-character forms mean something different in standard markdown. Each text element is limited to ~5000 characters.
 
 | Format        | Syntax                 |
 | ------------- | ---------------------- |
@@ -50,7 +50,7 @@ Block elements also work. Write them as literal markdown:
   ## Section title
   ```
 
-The one thing that does **not** embed: inline images (`![alt](url)`) render as a plain link, not an inline image. For rich embedded layouts (buttons, images, structured cards) you need Block Kit. See the Notes below.
+The one thing that does **not** embed in a message: inline images (`![alt](url)`) typically render as a plain link rather than an inline image. For rich embedded layouts (buttons, images, structured cards) you need Block Kit; for a document-style surface where images do embed, use a canvas. See the Notes below.
 
 ## Message Structure Guidelines
 
@@ -73,6 +73,12 @@ The one thing that does **not** embed: inline images (`![alt](url)`) render as a
 - For simple acknowledgments, add an emoji reaction with `slack_add_reaction` instead of a reply message (use `slack_get_reactions` to read existing reactions).
 - When writing announcements, use a clear structure: context, key info, call to action.
 
+## Scheduling
+
+- Use `slack_schedule_message` to post later. `post_at` is a Unix timestamp that must be at least 2 minutes in the future and at most 120 days out; the message body uses the same standard markdown as above.
+- Scheduled messages can't be edited via the API once set — the user manages them from **Drafts & sent** in Slack.
+
 ## Notes
 
-- **Scope:** this skill owns composing and formatting the _text_ of messages sent through the Slack MCP tools. For interactive layouts (buttons, menus, modals, Home tabs, or any Block Kit JSON), use the `slack:block-kit` skill, which composes and validates the block payload. For calling the Slack Web API directly (`chat.postMessage` and friends) rather than the MCP tools, use the `slack:slack-api` skill.
+- **Canvas formatting is different.** `slack_create_canvas` uses Canvas-flavored Markdown, a richer dialect than the message tools: headers, tables, checklists, and inline images (`![alt](url)`) all embed, and it also supports user/channel reference cards, callouts, and columns. Do **not** assume the message rules above apply — follow the `slack_create_canvas` tool's own formatting guidance when composing a canvas.
+- **Scope:** this skill owns composing and formatting the _text_ of messages sent through the Slack MCP message tools. For interactive layouts (buttons, menus, modals, Home tabs, or any Block Kit JSON), use the `slack:block-kit` skill, which composes and validates the block payload. For calling the Slack Web API directly (`chat.postMessage` and friends) rather than the MCP tools, use the `slack:slack-api` skill.

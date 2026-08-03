@@ -93,7 +93,7 @@ Example: `content_types="files" type:pdfs budget after:2025-01-01`
 
 After finding relevant messages:
 
-- Use `slack_read_thread` to get the full thread context for any threaded message.
+- Use `slack_read_thread` to get the full thread context for any threaded message. It takes the thread's `channel_id` and the parent message's timestamp — but the timestamp parameter is named `message_ts`, **not** `thread_ts`. A result's permalink shows this value as `?thread_ts=<ts>`; pass that `<ts>` under `message_ts`.
 - Use `slack_read_channel` with `oldest`/`latest` timestamps to read surrounding messages for context.
 - Use `slack_read_user_profile` to identify who a user is when their ID appears in results.
 
@@ -103,3 +103,4 @@ After finding relevant messages:
 - **Parentheses don't work.** Don't try to group search terms with `()`.
 - **Search is not real-time.** Very recent messages (last few seconds) may not appear in search results. Use `slack_read_channel` for the most recent messages.
 - **Private channel access.** Use `slack_search_public_and_private` when you need to include private channels, but note this requires user consent.
+- **`slack_read_thread` expects `message_ts`, not `thread_ts`.** Search permalinks contain `?thread_ts=<ts>`, but the tool's timestamp parameter is named `message_ts`. Pass the timestamp value under `message_ts` (with the thread's `channel_id`) — a call using `thread_ts` is rejected.

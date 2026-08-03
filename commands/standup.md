@@ -11,7 +11,7 @@ description: Generate a standup update based on your recent Slack activity
    - **What I'm working on next** — Any mentions of upcoming work, plans, or follow-ups
    - **Blockers** — Any questions asked that went unanswered, issues raised, or explicit mentions of being stuck
 
-4. For messages in threads, use `slack_read_thread` to get the full context so you can accurately describe what the user contributed.
+4. For messages in threads, use `slack_read_thread` to get the full context so you can accurately describe what the user contributed. Pass the message's timestamp from the search results as `message_ts` — the parameter is named `message_ts`, not `thread_ts`.
 
 5. Format the standup as:
 

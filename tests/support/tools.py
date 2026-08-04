@@ -26,7 +26,7 @@ async def _list_slack_mcp_tools() -> list[types.Tool]:
     headers = {"Authorization": f"Bearer {SLACK_MCP_TOKEN}"}
     async with (
         create_mcp_http_client(headers=headers) as http_client,
-        streamable_http_client(SLACK_MCP_URL, http_client=http_client) as (read, write, _),
+        streamable_http_client(SLACK_MCP_URL, http_client=http_client) as (read, write),
         ClientSession(read, write, client_info=_CLIENT_INFO) as session,
     ):
         await session.initialize()
@@ -35,7 +35,7 @@ async def _list_slack_mcp_tools() -> list[types.Tool]:
         while True:
             result = await session.list_tools(params=types.PaginatedRequestParams(cursor=cursor))
             tools.extend(result.tools)
-            cursor = result.nextCursor
+            cursor = result.next_cursor
             if not cursor:
                 return tools
 

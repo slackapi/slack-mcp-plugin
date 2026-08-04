@@ -2,27 +2,24 @@
 name = "slack-skills-tests"
 version = "0.0.0"
 description = "Unite tests and evaluations for Slack Skills"
-requires-python = ">=3.14"
+requires-python = "~=3.14"
 
 [project.optional-dependencies]
 test = [
-    "pytest>=8.0,<10.0",
-    # 4.0.6 ships a broken CLI: deepeval/cli/test/command.py imports the
-    # non-existent `deepeval.deepeval.config.settings`, so `deepeval test run`
-    # (used by `make test-eval`) crashes on import. Exclude that one release.
-    "deepeval>=4.0,<5.0,!=4.0.6",
-    "google-genai>=1.0,<2.0",
-    "python-dotenv>=1.0,<2.0",
-    "pyyaml>=6.0,<7.0",
-    "markdown>=3.5,<4.0",
-    "mcp>=1.13,<2.0",
+    "pytest==9.1.1",
+    "deepeval==4.1.5",
+    "google-genai==2.16.0",
+    "python-dotenv==1.2.2",
+    "pyyaml==6.0.3",
+    "markdown==3.10.3",
+    "mcp==2.0.0",
 ]
 tools = [
-    "ruff>=0.11,<1.0",
-    "rumdl>=0.2,<1.0",
-    "mypy>=1.11,<2.0",
-    "types-PyYAML>=6.0,<7.0",
-    "types-Markdown>=3.5,<4.0",
+    "ruff==0.16.1",
+    "rumdl==0.2.50",
+    "mypy==2.3.0",
+    "types-PyYAML==6.0.12.20260724",
+    "types-Markdown==3.10.2.20260712",
 ]
 
 # This project is installed only to run the test suite; the importable package

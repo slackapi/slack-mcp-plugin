@@ -11,6 +11,15 @@ This skill provides guidance for composing well-formatted, effective Slack messa
 
 Apply this skill whenever composing, drafting, or helping the user write a Slack message, including when using `slack_send_message`, `slack_send_message_draft`, or `slack_schedule_message`. The formatting rules below cover these message tools. `slack_create_canvas` uses a different, richer markdown dialect — see the Canvas note below.
 
+## Connector Attribution
+
+Some AI hosts append a sender attribution such as “Sent using ChatGPT” after a message sent through a connected Slack tool. That footer is added by the host, is not part of the message text the user reviewed, and may not be removable by editing the message afterward.
+
+- Apply this preflight only immediately before a real post or scheduled post. Do not show it for compose-only or rewrite-only work, or for `slack_send_message_draft`; those actions do not send.
+- When the current host is known to add an attribution, stop and ask the user to choose between sending with the attribution or receiving final text to paste directly in Slack. Do not call the send or schedule tool until they choose. This matters especially when they say “as me,” use a mass mention, or are writing to customers.
+- If attribution-free delivery matters, prepare the final text and have the user paste or send it directly in Slack instead of calling the send tool.
+- Do not add the attribution to the drafted text yourself, and do not promise that a later edit can remove a host-added footer.
+
 ## Formatting
 
 The message tools (`slack_send_message`, `slack_send_message_draft`, `slack_schedule_message`) accept **standard markdown** and convert it to Slack formatting on send. Write normal markdown. Do **not** use Slack's legacy `mrkdwn` syntax (`*bold*`, `~strike~`); those single-character forms mean something different in standard markdown. Each text element is limited to ~5000 characters.

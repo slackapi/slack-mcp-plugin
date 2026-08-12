@@ -34,6 +34,22 @@ Never use a block type, element, or field you have not seen on a live page.
 
 ---
 
+## Resolve Tooling
+
+Before choosing the Fast Path, Modification Mode, or full workflow, use the
+`slack:slack-cli` skill, **Step 1: Detect the Slack CLI**, to resolve the public
+Slack CLI command once. Keep the result as either `SLACK_CMD` or an explicit
+reason the CLI is unavailable. This is a capability check only; do not
+authenticate, validate, or write Slack CLI configuration during this preflight.
+For Block Kit validation, stop after the standard-path and `PATH` probes in
+that detection step. If neither resolves the CLI, record it as unavailable and
+use curl; do not propose installation or ask about an alias unless the developer
+independently asked to configure the Slack CLI.
+
+All later validation and preview steps must reuse this result.
+
+---
+
 ## Fast Path (for clear, specific requests)
 
 If the developer's request is specific enough to determine both the target surface and the desired layout, collapse Steps 1-4 into a single pass:
@@ -178,15 +194,40 @@ The authoritative reference for this method (its parameters, auth requirements, 
 
 ### 5a. Build the validation request
 
-Prefer the Slack CLI when it's available, since it reuses the slack-cli skill's CLI detection and needs no token wrangling. If the CLI isn't installed, fall back to curl. Both call the same public method and return the same response, so Step 5b applies either way.
+Use the tooling result resolved before layout work. If `SLACK_CMD` resolved, you
+MUST attempt validation with the Slack CLI. Use curl only when the CLI was not
+found or its API command cannot run after the handling below. A Slack API
+validation response with `"ok": false` means the CLI ran successfully; fix the
+payload and retry with the CLI rather than switching transports.
 
 **Path A: Slack CLI (preferred).**
 
-Use the `slack:slack-cli` skill, **Step 1: Detect the Slack CLI**, to check whether the public CLI is installed and resolve its command (`SLACK_CMD`).
+Use the `slack:slack-cli` skill, **Step 4: Calling Web API Methods (`slack api`)**,
+for the argument-passing contract. The canonical `blocks.validate` invocation
+below is already known: attempt it directly without running `api --help`,
+`--version`, or generic help first.
 
-If the CLI is available, use the `slack:slack-cli` skill, **Step 4: Calling Web API Methods (`slack api`)**, to invoke it. That step covers the `SLACK_CMD api <method> key=value …` syntax. Run `SLACK_CMD api --help` first to confirm the syntax **and the flag that skips authentication**. `blocks.validate` needs no token, so call it without authentication. Don't hard-code that flag from memory; read it from the help output so this stays correct if it's ever renamed. Pass the payload as a positional `key=value` argument: `blocks=<JSON array>` for messages, or `view=<JSON view object>` for modals and home tabs.
+```bash
+$SLACK_CMD api blocks.validate --no-auth 'blocks=[...]'
+$SLACK_CMD api blocks.validate --no-auth 'view={...}'
+```
 
-**Path B: curl (fallback, when the CLI isn't installed).**
+If the command cannot start because the host blocks writes to the Slack CLI's
+config or log path, ask for the host's normal narrowly scoped permission and
+retry the identical command. Never activate a permission bypass. If permission
+is denied or unavailable, preserve the error, report that validation did not
+run, and stop; do not use another transport to evade that boundary. If the
+canonical attempt reports an incompatible CLI, record its version and
+diagnostic help output before deciding that the API command cannot execute; do
+not silently invent a different CLI invocation. For another non-permission
+execution failure, use curl only as an explicitly disclosed fallback.
+
+**Path B: curl (fallback).**
+
+Use curl only when the resolved preflight state says the CLI is absent, or the
+CLI call cannot execute after the policy-compliant handling above. Do not use
+curl to hide payload errors, Slack API errors, or a network/service failure that
+would affect either transport. Retain the exact fallback reason for Step 6.
 
 POST to the endpoint with the **Bash tool**. The API uses form-urlencoded encoding, so pass the JSON directly as the parameter value.
 
@@ -241,7 +282,17 @@ When validation fails:
 
 ## Step 6: Deliver the Final Output
 
-Present the validated payload, then help the developer put it to use.
+Present the validated payload, then help the developer put it to use. State
+whether validation ran through the Slack CLI or curl. If it ran through curl,
+state the recorded reason the CLI path was unavailable or unable to execute.
+
+Use one of these stable disclosures:
+
+- `Validation transport: Slack CLI (<resolved command>).`
+- `Validation transport: curl (Slack CLI unavailable: <reason>).`
+
+If validation did not succeed, state `Validation status: not validated
+(<reason>).` Never imply success from a transport attempt alone.
 
 ### Send it
 
@@ -253,13 +304,14 @@ Help the developer view their layout with the **Block Kit Builder**. Prefer the 
 
 **Path A: Slack CLI (preferred).**
 
-Use the `slack:slack-cli` skill, **Step 1: Detect the Slack CLI**, to check whether the public CLI is installed and resolve its command (`SLACK_CMD`).
-
-If the CLI is available, run `SLACK_CMD blocks preview --help` to see how to pass the blocks and open the preview. The command loads the blocks into the Block Kit Builder in the developer's browser.
+Reuse the `SLACK_CMD` recorded in **Resolve Tooling**. If it is available, run
+`SLACK_CMD blocks preview --help` to see how to pass the blocks and open the
+preview. The command loads the blocks into the Block Kit Builder in the
+developer's browser.
 
 Because you run the CLI non-interactively, this command also needs a `--team` flag. Resolve the team ID with the `slack:slack-cli` skill, **Step 2: Command Discovery via Help**, whose "Resolving `--app` and `--team` values" guidance covers running `SLACK_CMD auth list`; Any authenticated workspace works for a preview, if several are available, pick one and mention which you used rather than blocking on the choice.
 
-**Path B: Block Kit Builder link (fallback, when the CLI isn't installed).**
+**Path B: Block Kit Builder link (fallback, when Resolve Tooling recorded the CLI as unavailable).**
 
 Offer the Block Kit Builder link so the developer can paste the JSON in and tweak visually: `https://app.slack.com/block-kit-builder`. Builder needs an object (`{ "blocks": [...] }` or a full view object), not a bare array.
 

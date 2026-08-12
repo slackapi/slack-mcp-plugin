@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "slack",
-  "description": "Bring Slack into your AI tools with a Slack MCP server and Slack skills",
+  "description": "Slack AI tools for users and developers: interact with your workspace via the Slack MCP server and use skills to develop Slack apps.",
   "version": "1.2.0",
   "author": {
     "name": "Slack",

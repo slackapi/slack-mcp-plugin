@@ -1,6 +1,6 @@
 {
   "name": "slack",
-  "description": "Slack MCP server. Search channels, send messages, and perform other Slack actions through MCP-compatible clients.",
+  "description": "Slack AI tools for users and developers: interact with your workspace via the Slack MCP server and use skills for developing Slack apps.",
   "version": "1.2.0",
   "mcpServers": "../.cursor-mcp.json",
   "author": {

@@ -1,7 +1,7 @@
 {
   "name": "slack",
   "version": "1.2.0",
-  "description": "Slack skills for building apps with the Slack CLI, Bolt, Web API, and Block Kit",
+  "description": "Slack skills for developing apps with the Slack CLI, Bolt frameworks, Web API, and Block Kit",
   "author": {
     "name": "Slack",
     "url": "https://slack.com"
@@ -13,9 +13,9 @@
   "mcpServers": {},
   "interface": {
     "displayName": "Slack",
-    "shortDescription": "Slack skills for your AI tools",
-    "longDescription": "Skills for building Slack apps with the Slack CLI and Bolt, calling Web API methods, and composing Block Kit layouts, plus skills for searching and messaging in Slack when a Slack MCP server is connected.",
-    "defaultPrompt": "Help me build a Slack app with the Slack CLI and Bolt.",
+    "shortDescription": "Slack skills for developers",
+    "longDescription": "Skills for developing Slack apps with the Slack CLI and Bolt frameworks, calling Web API methods, and composing Block Kit layouts.",
+    "defaultPrompt": "Help me develop a Slack app with the Slack CLI and Bolt.",
     "developerName": "Slack",
     "category": "Productivity",
     "capabilities": [

@@ -1,6 +1,6 @@
 ---
 name: slack-messaging
-description: Compose and format effective Slack messages sent via the Slack MCP tools. Use whenever writing, drafting, scheduling, or improving a Slack message, announcement, or reply. Covers standard markdown formatting, message structure, thread etiquette, reactions, and scheduling, and points to the right dialect for canvases and Block Kit.
+description: "Use when writing, drafting, scheduling, or improving a Slack message, announcement, or reply sent via the Slack MCP tools (slack_send_message, slack_send_message_draft, slack_schedule_message). Covers Slack markdown formatting, message structure, thread etiquette, reactions, and scheduling, and points to the right dialect for canvases and Block Kit."
 ---
 
 # Slack Messaging Best Practices

@@ -1,6 +1,6 @@
 ---
 name: block-kit
-description: 'Help developers build and validate Block Kit layouts for Slack messages, modals, and Home tabs. Provides authoritative block references and validates with the blocks.validate API. Use this skill whenever the developer wants to compose Slack message layouts, build modals/forms/dialogs, design Home tab interfaces, create interactive messages with buttons or menus, modify existing Block Kit JSON, or asks about any Slack UI component (sections, actions, inputs, headers, alerts, tables, carousels). Also trigger when they mention "blocks", "Block Kit Builder", want to preview or see the rendered version of blocks, or paste JSON containing block structures like `"type": "section"`.'
+description: 'Use when a developer wants to build or validate Block Kit layouts for Slack messages, modals, or Home tabs: message layouts, modals/forms/dialogs, Home tab interfaces, interactive buttons or menus, or modifying existing Block Kit JSON. Also trigger on any Slack UI component (sections, actions, inputs, headers, alerts, tables, carousels), the words "blocks" or "Block Kit Builder", a request to preview rendered blocks, or pasted JSON like "type": "section". Validates via the blocks.validate API method.'
 argument-hint: "[message | modal | home-tab]"
 ---
 

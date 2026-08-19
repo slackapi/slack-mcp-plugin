@@ -1,6 +1,6 @@
 ---
 name: slack-search
-description: "Use when locating messages, files, channels, or people across Slack, or gathering context before answering, with the search MCP tools (slack_search_public, slack_search_public_and_private, slack_search_channels, slack_search_users). Covers search modifiers (in:, from:, before:), file-type filters, natural-language vs. keyword search, and reading results in context. Requires a Slack MCP Server connection."
+description: "Use when locating messages, files, channels, or people across Slack, or gathering context before answering, with the search MCP tools (slack_search_public, slack_search_public_and_private, slack_search_channels, slack_search_users). Covers search modifiers (in:, from:, before:), file-type filters, natural-language vs. keyword search, and reading results in context."
 ---
 
 # Slack Search

@@ -164,9 +164,57 @@ Codex support currently ships only the skills; the hosted MCP server is not yet 
 
 ### Testing in OpenCode
 
-OpenCode support is repository-local. The root `skills/` and `commands/`
-directories are canonical; relative symlinks under `.opencode/` adapt them to
-OpenCode's native discovery paths without creating another authored copy.
+OpenCode support is both repository-local and globally installable. The root
+`skills/` and `commands/` directories are canonical. Relative symlinks under
+`.opencode/` adapt them to OpenCode's native discovery paths for the
+repository-local mode; the global installer (below) copies the same content into
+`~/.config/opencode/` for use outside a checkout.
+
+#### Global installer
+
+The global installer (`scripts/opencode.py`) mirrors `scripts/cursor.py`:
+
+```sh
+make opencode-install   # copy 7 skills + 5 commands + Slack MCP config globally
+make opencode-uninstall # remove only what the installer owns
+make opencode-sync      # re-copy owned content to match canonical sources
+```
+
+`opencode-install` copies the seven canonical skills into
+`~/.config/opencode/skills/`, the five namespaced `slack-*` commands into
+`~/.config/opencode/commands/`, and merges the Slack MCP entry into
+`~/.config/opencode/opencode.json`. It **copies** rather than symlinks: symlinks
+into a checkout break the moment the checkout moves or is deleted, whereas
+copies are self-contained. The trade-off is that copies drift from canonical as
+`skills/` and `commands/` evolve, so the installer records exactly what it owns
+in a manifest (`.slack-skills-plugin.json`) and `install`/`sync` re-copy owned
+content back to canonical on every run. `uninstall` removes only manifest-owned
+files and surgically removes the `mcp.slack` entry, leaving the user's own
+skills, commands, and config keys untouched.
+
+Config merge is deliberately conservative. The installer merges into an existing
+`opencode.json` without clobbering other servers or plugins. It never rewrites
+`opencode.jsonc`, because JSONC comments cannot be safely round-tripped; in that
+case (and when `opencode.json` is invalid JSON) it writes a standalone
+`opencode.slack.json` for the user to merge by hand. No secret is ever written:
+the MCP entry uses `{env:SLACK_OPENCODE_CLIENT_ID}`.
+
+To validate the installer, run the parity, idempotency, collision, uninstall,
+and no-secrets checks in `tests/unit/test_opencode_installer.py` via
+`make test-unit`, then exercise the real path manually with a scratch config
+directory:
+
+```sh
+export XDG_CONFIG_HOME="$(mktemp -d)"
+make opencode-install
+make opencode-install          # idempotent: second run is a no-op
+opencode --pure debug skill    # lists the seven canonical skills
+opencode --pure debug config   # lists the five slack-* commands
+make opencode-uninstall
+unset XDG_CONFIG_HOME
+```
+
+#### Repository-local validation
 
 First, rerun the credential-free OpenCode 1.18.18 discovery experiment:
 

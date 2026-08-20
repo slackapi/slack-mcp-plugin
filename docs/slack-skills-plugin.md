@@ -34,13 +34,32 @@ The plugin is published on the [official Cursor Marketplace](https://cursor.com/
 
 Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
 
-### Using the repository with OpenCode
+### Using the plugin with OpenCode
 
-OpenCode 1.18.18 or newer can load the repository directly when run inside its
-checkout. This mode is not published to an OpenCode marketplace and does not
-install skills or commands globally.
+OpenCode 1.18.18 or newer supports the plugin in two ways: a global install, or
+running from inside a checkout.
 
-The checkout provides three surfaces:
+#### Global install
+
+Clone the repository and run the installer:
+
+```sh
+git clone https://github.com/slackapi/slack-skills-plugin.git
+cd slack-skills-plugin
+make opencode-install
+```
+
+This copies the seven skills into `~/.config/opencode/skills/`, the five
+namespaced commands into `~/.config/opencode/commands/`, and the Slack MCP entry
+into `~/.config/opencode/opencode.json`. It merges into an existing config
+without disturbing other servers or plugins, records what it owns, and
+`make opencode-uninstall` removes only what it installed. Run
+`make opencode-sync` to re-copy owned content after updating the checkout.
+
+#### Repository-local
+
+Alternatively, run OpenCode from inside a checkout. The checkout provides three
+surfaces:
 
 * Slack MCP configuration from the repository-root `opencode.json`.
 * Seven canonical skills exposed through relative symlinks in

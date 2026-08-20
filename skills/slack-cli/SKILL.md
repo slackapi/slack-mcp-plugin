@@ -1,6 +1,6 @@
 ---
 name: slack-cli
-description: Use the Slack CLI to create, run, and manage Slack apps from the terminal. Use whenever the developer wants to log in, add a team, switch workspaces, or authenticate with Slack; whenever Slack CLI commands are needed (local development with `slack run`, managing app lifecycle, the manifest).
+description: "Use when a developer works with the Slack CLI (slack command) to create, run, or manage a Slack app from the terminal: logging in or authenticating (slack login), adding a team or switching workspaces, running locally (slack run), deploying, editing the app manifest, calling Web API methods (slack api), or searching Slack docs (slack docs search)."
 ---
 
 # Slack CLI

@@ -48,6 +48,22 @@ source .venv/bin/activate
 
 ---
 
+## Authoring Skills
+
+A skill's `description` frontmatter is the only text an agent reads when deciding whether to load the skill, so write it deliberately. For general skill-authoring mechanics (structure, naming, frontmatter, testing), invoke the `superpowers:writing-skills` skill; if it isn't installed, its frontmatter rules follow the [Agent Skills specification][agent-skills].
+
+Every `description` in this repo follows these conventions:
+
+1. **Lead with the trigger, not the pitch.** Open with "Use when …" and describe the situation that should load the skill, not what it can do.
+2. **Don't summarize the workflow.** Listing what the skill covers is fine; a step-by-step of how it works is not, because an agent will follow the description instead of reading the skill body.
+3. **Write impersonally.** No first person ("I can …") or second person ("You can also …"). State the condition, not the assistant.
+4. **Pin the moment** with "before …" when the skill should fire at a specific point, e.g. before answering a question about Slack.
+5. **Pack in concrete keywords** an agent would match on: method names (`chat.postMessage`), error strings (`missing_scope`), MCP tool names (`slack_send_message`), CLI commands (`slack run`), and URL shapes (`slack.com/api/…`).
+6. **Name the Slack surface.** Say which part of Slack the trigger covers: Web API method, Block Kit modal, canvas, or channel search. Generic phrasing loses to a skill that names the surface.
+7. **Keep it to a line or two.** A fragment, no marketing adjectives. Aim under 500 characters; the hard cap is 1024.
+
+---
+
 ## Local Development & Testing
 
 Before you release (or open a PR), exercise your changes locally: run the test
@@ -239,6 +255,7 @@ Patch and minor updates are auto-approved and auto-merged via the
 
 ---
 
+[agent-skills]: https://agentskills.io/specification
 [claude-code]: https://claude.ai/code
 [cursor]: https://cursor.com
 [codex-cli]: https://developers.openai.com/codex/cli

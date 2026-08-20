@@ -194,10 +194,8 @@ skills, commands, and config keys untouched.
 
 Config merge is deliberately conservative. The installer merges into an existing
 `opencode.json` without clobbering other servers or plugins. It never rewrites
-`opencode.jsonc`, because JSONC comments cannot be safely round-tripped; in that
-case (and when `opencode.json` is invalid JSON) it writes a standalone
-`opencode.slack.json` for the user to merge by hand. No secret is ever written:
-the MCP entry uses `{env:SLACK_OPENCODE_CLIENT_ID}`.
+`opencode.jsonc`, because JSONC comments cannot be safely round-tripped. No
+secret is ever written: the MCP entry uses `{env:SLACK_OPENCODE_CLIENT_ID}`.
 
 To validate the installer, run the parity, idempotency, collision, uninstall,
 and no-secrets checks in `tests/unit/test_opencode_installer.py` via
@@ -215,17 +213,6 @@ unset XDG_CONFIG_HOME
 ```
 
 #### Repository-local validation
-
-First, rerun the credential-free OpenCode 1.18.18 discovery experiment:
-
-```sh
-make opencode-symlink-experiment
-```
-
-The target must report `PASS` for both skill-directory and command-file symlink
-discovery and confirm that protected repository paths were unchanged. It writes
-the detailed evidence to
-`.tmp/experiments/opencode-1.18.18-symlink-discovery.md`.
 
 Run the structural suite for adapter parity:
 

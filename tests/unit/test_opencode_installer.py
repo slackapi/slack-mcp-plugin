@@ -165,7 +165,7 @@ class TestOpenCodeConfigMerge:
         assert "slack-standup.md" in report.collisions
         assert custom.read_text() == "---\ndescription: my custom command\n---\n\ncustom\n"
 
-    def test_jsonc_config_falls_back_without_rewriting_it(self, tmp_path: Path) -> None:
+    def test_jsonc_config_is_not_rewritten(self, tmp_path: Path) -> None:
         # Arrange
         config_dir = config_dir_for(tmp_path)
         config_dir.mkdir(parents=True)
@@ -176,10 +176,24 @@ class TestOpenCodeConfigMerge:
         report = oc.install(REPO_ROOT, config_dir)
 
         # Assert
-        assert report.config_action == "fallback"
+        assert report.config_action == "skipped"
         assert jsonc.read_text().startswith('{\n  // user comment')  # untouched
-        fallback = json.loads((config_dir / oc.FALLBACK_CONFIG_FILENAME).read_text())
-        assert fallback["mcp"]["slack"]["oauth"]["clientId"] == "{env:SLACK_OPENCODE_CLIENT_ID}"
+        assert not (config_dir / "opencode.slack.json").exists()
+
+    def test_install_does_not_follow_symlinked_config(self, tmp_path: Path) -> None:
+        # Arrange
+        config_dir = config_dir_for(tmp_path)
+        config_dir.mkdir(parents=True)
+        outside = tmp_path / "outside.json"
+        outside.write_text('{"mcp": {"other": {}}}\n')
+        (config_dir / "opencode.json").symlink_to(outside)
+
+        # Act
+        report = oc.install(REPO_ROOT, config_dir)
+
+        # Assert
+        assert report.config_action == "skipped"
+        assert outside.read_text() == '{"mcp": {"other": {}}}\n'
 
 
 class TestOpenCodeGlobalUninstall:
@@ -252,6 +266,38 @@ class TestOpenCodeSync:
         assert "block-kit" in report.updated
         canonical = (REPO_ROOT / "skills" / "block-kit" / "SKILL.md").read_bytes()
         assert drifted.read_bytes() == canonical
+
+    def test_sync_does_not_follow_symlinked_owned_command(self, tmp_path: Path) -> None:
+        # Arrange
+        config_dir = config_dir_for(tmp_path)
+        oc.install(REPO_ROOT, config_dir)
+        command = config_dir / "commands" / "slack-standup.md"
+        outside = tmp_path / "outside.md"
+        outside.write_text("user content\n")
+        command.unlink()
+        command.symlink_to(outside)
+
+        # Act
+        oc.sync(REPO_ROOT, config_dir)
+
+        # Assert
+        assert outside.read_text() == "user content\n"
+
+    def test_uninstall_ignores_unrecognized_manifest_command(self, tmp_path: Path) -> None:
+        # Arrange
+        config_dir = config_dir_for(tmp_path)
+        config_dir.mkdir(parents=True)
+        outside = tmp_path / "outside.md"
+        outside.write_text("user content\n")
+        (config_dir / oc.MANIFEST_FILENAME).write_text(
+            json.dumps({"commands": ["../../outside.md"]})
+        )
+
+        # Act
+        oc.uninstall(REPO_ROOT, config_dir)
+
+        # Assert
+        assert outside.read_text() == "user content\n"
 
 
 class TestOpenCodeConfigDir:

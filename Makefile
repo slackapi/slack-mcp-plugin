@@ -6,7 +6,7 @@ RUMDL := $(VENV)/bin/rumdl
 MYPY := $(VENV)/bin/mypy
 DEEPEVAL := $(VENV)/bin/deepeval
 
-TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall opencode-install opencode-uninstall opencode-sync opencode-symlink-experiment opencode-smoke
+TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall opencode-install opencode-uninstall opencode-sync
 
 .PHONY: $(TARGETS)
 
@@ -27,9 +27,8 @@ install-tools: $(VENV) ## Install linting/formatting tools (ruff)
 	$(PIP) install --upgrade pip
 	$(PIP) install -e ".[tools]"
 
-clean: ## Remove virtual environment and local Cursor/OpenCode installs
+clean: ## Remove virtual environment and local Cursor install
 	-$(PYTHON) scripts/cursor.py uninstall
-	-$(PYTHON) scripts/opencode.py uninstall
 	rm -rf $(VENV) node_modules
 
 cursor-install: $(VENV) ## Install this plugin into a local Cursor for development
@@ -46,12 +45,6 @@ opencode-uninstall: $(VENV) ## Uninstall this plugin's OpenCode mode from ~/.con
 
 opencode-sync: $(VENV) ## Re-copy installed OpenCode skills/commands to match the canonical sources
 	$(PYTHON) scripts/opencode.py sync
-
-opencode-symlink-experiment: $(VENV) ## Probe OpenCode 1.18.18 project symlink discovery without credentials
-	$(PYTHON) scripts/opencode_symlink_experiment.py
-
-opencode-smoke: $(VENV) ## Run privacy-preserving OpenCode smoke checks (set OPENCODE_SMOKE_READ_ONLY=1)
-	$(PYTHON) scripts/opencode_smoke.py
 
 lint: ## Run linter checks (ruff for Python, rumdl for Markdown)
 	$(RUFF) check .

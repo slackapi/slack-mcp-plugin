@@ -57,7 +57,6 @@ COMMAND_ADAPTERS: dict[str, str] = {
 }
 
 MANIFEST_FILENAME = ".slack-skills-plugin.json"
-FALLBACK_CONFIG_FILENAME = "opencode.slack.json"
 CONFIG_FILENAME = "opencode.json"
 JSONC_FILENAME = "opencode.jsonc"
 MANIFEST_VERSION = 1
@@ -92,7 +91,6 @@ class Manifest:
     skills: set[str] = field(default_factory=set)
     commands: set[str] = field(default_factory=set)
     config: ConfigRecord | None = None
-    fallback: bool = False  # True when opencode.slack.json was written
     slack_mcp_sha256: str | None = None
 
 
@@ -115,6 +113,8 @@ def load_json_object(path: Path) -> dict[str, object]:
 
 
 def write_json(path: Path, data: dict[str, object]) -> None:
+    if path.is_symlink():
+        raise ValueError(f"refusing to overwrite symlink: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n")
 
@@ -145,7 +145,6 @@ def load_manifest(config_dir: Path) -> Manifest:
         skills=string_set(data.get("skills")),
         commands=string_set(data.get("commands")),
         config=config,
-        fallback=data.get("fallback") is True,
         slack_mcp_sha256=raw_sha if isinstance(raw_sha, str) else None,
     )
 
@@ -161,7 +160,6 @@ def save_manifest(config_dir: Path, manifest: Manifest) -> None:
             if manifest.config is not None
             else None
         ),
-        "fallback": manifest.fallback,
         "slackMcpSha256": manifest.slack_mcp_sha256,
     }
     write_json(config_dir / MANIFEST_FILENAME, payload)
@@ -210,6 +208,11 @@ def copy_file(source: Path, dest: Path) -> None:
     shutil.copy2(source, dest)
 
 
+def is_safe_owned_file(path: Path) -> bool:
+    """Return whether an owned file is safe to overwrite or remove."""
+    return not path.is_symlink()
+
+
 def files_match(sources: list[Path], target_dir: Path, source_root: Path) -> bool:
     for source in sources:
         dest = target_dir / source.relative_to(source_root)
@@ -223,8 +226,14 @@ def sync_skills(repo_root: Path, config_dir: Path, manifest: Manifest, report: R
         source_root = repo_root / "skills" / name
         target_dir = config_dir / "skills" / name
         if name in manifest.skills:
+            if target_dir.is_symlink():
+                logger.warning("not following symlinked owned skill directory: %s", name)
+                continue
             for source in sources:
                 dest = target_dir / source.relative_to(source_root)
+                if not is_safe_owned_file(dest):
+                    logger.warning("not overwriting symlinked owned skill file: %s", dest)
+                    continue
                 if not dest.exists() or dest.read_bytes() != source.read_bytes():
                     copy_file(source, dest)
                     report.updated.add(name)
@@ -247,6 +256,9 @@ def sync_commands(repo_root: Path, config_dir: Path, manifest: Manifest, report:
     for adapter, source in canonical_commands(repo_root).items():
         dest = config_dir / "commands" / adapter
         if adapter in manifest.commands:
+            if not is_safe_owned_file(dest):
+                logger.warning("not overwriting symlinked owned command: %s", dest)
+                continue
             if not dest.exists() or dest.read_bytes() != source.read_bytes():
                 copy_file(source, dest)
                 report.updated.add(adapter)
@@ -291,14 +303,6 @@ def create_config(path: Path, slack_block: dict[str, object], schema: str | None
     write_json(path, data)
 
 
-def write_fallback_config(config_dir: Path, slack_block: dict[str, object], schema: str | None) -> None:
-    data: dict[str, object] = {}
-    if schema is not None:
-        data["$schema"] = schema
-    data["mcp"] = {"slack": slack_block}
-    write_json(config_dir / FALLBACK_CONFIG_FILENAME, data)
-
-
 def install_config(
     config_dir: Path,
     slack_block: dict[str, object],
@@ -308,14 +312,16 @@ def install_config(
 ) -> None:
     json_path = config_dir / CONFIG_FILENAME
     jsonc_path = config_dir / JSONC_FILENAME
+    if json_path.is_symlink():
+        logger.warning("refusing to modify symlinked config: %s", json_path)
+        report.config_action = "skipped"
+        return
     if json_path.exists():
         try:
             action = merge_slack_mcp(json_path, slack_block)
         except ValueError as error:
-            logger.warning("cannot safely merge %s (%s); writing %s", json_path, error, FALLBACK_CONFIG_FILENAME)
-            write_fallback_config(config_dir, slack_block, schema)
-            manifest.fallback = True
-            report.config_action = "fallback"
+            logger.warning("cannot safely merge %s (%s); leaving it unchanged", json_path, error)
+            report.config_action = "skipped"
             return
         report.config_action = action
         if action == "merged":
@@ -325,13 +331,10 @@ def install_config(
         return
     if jsonc_path.exists():
         # JSONC can carry comments we cannot preserve, so never rewrite it.
-        write_fallback_config(config_dir, slack_block, schema)
-        manifest.fallback = True
-        report.config_action = "fallback"
+        report.config_action = "skipped"
         logger.warning(
-            "%s may contain comments and is left untouched; wrote %s — merge its mcp.slack into your config manually",
+            "%s may contain comments and is left untouched; merge the Slack MCP entry manually",
             jsonc_path,
-            FALLBACK_CONFIG_FILENAME,
         )
         return
     create_config(json_path, slack_block, schema)
@@ -340,6 +343,8 @@ def install_config(
 
 
 def install(repo_root: Path, config_dir: Path) -> Report:
+    if (config_dir / MANIFEST_FILENAME).is_symlink():
+        raise ValueError("refusing to use a symlinked installer manifest")
     manifest = load_manifest(config_dir)
     slack_block = read_slack_mcp_block(repo_root)
     schema = read_config_schema(repo_root)
@@ -368,6 +373,8 @@ def install(repo_root: Path, config_dir: Path) -> Report:
 
 
 def sync(repo_root: Path, config_dir: Path) -> Report:
+    if (config_dir / MANIFEST_FILENAME).is_symlink():
+        raise ValueError("refusing to use a symlinked installer manifest")
     manifest = load_manifest(config_dir)
     report = Report()
     sync_skills(repo_root, config_dir, manifest, report)
@@ -381,6 +388,9 @@ def sync(repo_root: Path, config_dir: Path) -> Report:
 
 
 def uninstall_config(path: Path, created: bool, slack_sha256: str | None) -> str:
+    if path.is_symlink():
+        logger.warning("refusing to modify symlinked config: %s", path)
+        return "left"
     if not path.exists():
         return "absent"
     try:
@@ -422,30 +432,29 @@ def prune_empty_dirs(config_dir: Path) -> None:
 
 def uninstall(repo_root: Path, config_dir: Path) -> None:
     manifest = load_manifest(config_dir)
-    if not manifest.skills and not manifest.commands and manifest.config is None and not manifest.fallback:
+    if not manifest.skills and not manifest.commands and manifest.config is None:
         logger.warning("the Slack plugin is not installed; nothing to remove")
         return
 
     for name in sorted(manifest.skills):
         for source in canonical_skills(repo_root).get(name, []):
             path = config_dir / "skills" / name / source.relative_to(repo_root / "skills" / name)
-            if path.exists():
+            if path.exists() and is_safe_owned_file(path):
                 path.unlink()
     for adapter in sorted(manifest.commands):
+        if adapter not in COMMAND_ADAPTERS:
+            logger.warning("ignoring unrecognized command in manifest: %s", adapter)
+            continue
         path = config_dir / "commands" / adapter
-        if path.exists():
+        if path.exists() and is_safe_owned_file(path):
             path.unlink()
     prune_empty_dirs(config_dir)
 
-    if manifest.fallback:
-        fallback = config_dir / FALLBACK_CONFIG_FILENAME
-        if fallback.exists():
-            fallback.unlink()
-    if manifest.config is not None:
+    if manifest.config is not None and manifest.config.path == CONFIG_FILENAME:
         uninstall_config(config_dir / manifest.config.path, manifest.config.created, manifest.slack_mcp_sha256)
 
     manifest_path = config_dir / MANIFEST_FILENAME
-    if manifest_path.exists():
+    if manifest_path.exists() and is_safe_owned_file(manifest_path):
         manifest_path.unlink()
     logger.info("removed the Slack plugin's OpenCode installation")
 

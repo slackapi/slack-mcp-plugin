@@ -56,3 +56,6 @@ __pycache__/
 # Misc
 .private-journal/
 triage/
+
+# Temporary agent session/task/experiment files
+.tmp/

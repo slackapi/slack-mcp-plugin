@@ -6,7 +6,7 @@ RUMDL := $(VENV)/bin/rumdl
 MYPY := $(VENV)/bin/mypy
 DEEPEVAL := $(VENV)/bin/deepeval
 
-TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall
+TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall opencode-symlink-experiment opencode-smoke
 
 .PHONY: $(TARGETS)
 
@@ -36,6 +36,12 @@ cursor-install: $(VENV) ## Install this plugin into a local Cursor for developme
 
 cursor-uninstall: $(VENV) ## Uninstall this plugin from the local Cursor install
 	$(PYTHON) scripts/cursor.py uninstall
+
+opencode-symlink-experiment: $(VENV) ## Probe OpenCode 1.18.18 project symlink discovery without credentials
+	$(PYTHON) scripts/opencode_symlink_experiment.py
+
+opencode-smoke: $(VENV) ## Run privacy-preserving OpenCode smoke checks (set OPENCODE_SMOKE_READ_ONLY=1)
+	$(PYTHON) scripts/opencode_smoke.py
 
 lint: ## Run linter checks (ruff for Python, rumdl for Markdown)
 	$(RUFF) check .

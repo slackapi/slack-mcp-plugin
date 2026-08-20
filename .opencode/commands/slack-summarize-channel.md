@@ -1,0 +1,1 @@
+../../commands/summarize-channel.md

@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code and Cursor.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, or a repository-local OpenCode session.
 
 Installing the plugin sets up two things:
 
@@ -13,7 +13,8 @@ The Slack MCP server is configured automatically when the plugin loads. You'll b
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code or for Cursor.
+You can install the plugin for Claude Code or Cursor. OpenCode support uses a
+repository-local checkout instead of a marketplace installation.
 
 ### Installing the plugin for Claude Code
 
@@ -33,6 +34,27 @@ The plugin is published on the [official Cursor Marketplace](https://cursor.com/
 
 Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
 
+### Using the repository with OpenCode
+
+OpenCode 1.18.18 or newer can load the repository directly when run inside its
+checkout. This mode is not published to an OpenCode marketplace and does not
+install skills or commands globally.
+
+The checkout provides three surfaces:
+
+* Slack MCP configuration from the repository-root `opencode.json`.
+* Seven canonical skills exposed through relative symlinks in
+  `.opencode/skills/`.
+* Five namespaced commands exposed through relative symlinks in
+  `.opencode/commands/`: `slack-channel-digest`, `slack-draft-announcement`,
+  `slack-find-discussions`, `slack-standup`, and `slack-summarize-channel`.
+
+The symlinks keep the root `skills/` and `commands/` directories authoritative,
+so the OpenCode mode uses the same workflows as Claude Code and Cursor rather
+than maintaining another copy. See the repository README for internal Slack app
+eligibility, PKCE, user scopes, admin approval, App Assistant MCP enablement,
+authentication, and command examples.
+
 ---
 
 ## Using skills {/* #skills */}
@@ -47,5 +69,6 @@ Most of the skills work on their own, without a connection to the [Slack MCP ser
 | `create-slack-app` | Scaffold a new Slack app or agent with the [Slack CLI](/tools/slack-cli) and [Bolt](/tools#bolt) (JavaScript or Python). | _"Scaffold a new Bolt for JavaScript app that listens for the `app_mention` event."_ |
 | `slack-api` | Discover, navigate, and call [Web API methods](/apis/web-api), surfacing info on required scopes, pagination, rate limits, and error handling. | _"Which Web API method posts a message to a channel, and what scopes does it need?"_ |
 | `slack-cli` | Create, run, and manage Slack apps from the terminal with the [Slack CLI](/tools/slack-cli), and search the Slack docs from the command line. | _"Run my Slack app locally and tail the logs."_ |
+| `slack-docs` | Search and read current Slack platform documentation from [docs.slack.dev](https://docs.slack.dev). | _"Find the Slack docs for app manifests and summarize the required fields."_ |
 | `slack-messaging` | Compose well-formatted Slack messages using standard markdown. | _"Draft a release announcement message with a bulleted list of changes."_ |
 | `slack-search` | Search Slack effectively to find messages, files, channels, and people. Requires a Slack MCP Server connection. | _"Find the channel where we discuss the platform roadmap."_ |

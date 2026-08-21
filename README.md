@@ -29,42 +29,27 @@ This installs the skills, commands, and MCP server together. You'll be prompted 
 
 ### OpenCode
 
-OpenCode 1.18.18 or newer supports this plugin. There are two ways to install it:
+OpenCode 1.18.18 or newer supports the native config-hook plugin. Add the
+git-backed plugin to your OpenCode config:
 
-- **Global install** (recommended): `make opencode-install` copies the skills,
-  commands, and Slack MCP config into `~/.config/opencode/`, so OpenCode picks
-  them up from anywhere on your machine.
-- **Repository-local**: run OpenCode from inside this checkout.
-
-#### Global install
-
-Clone the repository and run the installer:
-
-```sh
-git clone https://github.com/slackapi/slack-skills-plugin.git
-cd slack-skills-plugin
-make opencode-install
+```json
+{
+  "plugin": [
+    "slack@git+https://github.com/slackapi/slack-skills-plugin.git"
+  ]
+}
 ```
 
-The installer copies the seven canonical skills into
-`~/.config/opencode/skills/`, the five namespaced commands into
-`~/.config/opencode/commands/`, and merges the Slack MCP entry into
-`~/.config/opencode/opencode.json`. If `opencode.json` already has other
-servers or plugins, only the Slack MCP entry is added — nothing else is touched.
-The installer records what it owns, so `make opencode-uninstall` removes exactly
-what it installed while leaving your own skills, commands, and config intact.
+The plugin is thin: its native `config` hook points OpenCode at the canonical
+root `skills/` directory and registers the commands and MCP configuration in
+memory. It does not install, copy, or rewrite project files. Registration is
+idempotent. If your config already contains `mcp.slack`, the plugin preserves
+that entry and does not replace it.
 
-The installer copies (rather than symlinks) the skills and commands so they keep
-working if you later move or delete the checkout. Because copies can drift from
-the canonical sources, re-run `make opencode-install` (or `make opencode-sync`)
-after updating the checkout to pull in changes.
-
-#### Repository-local (alternative)
-
-Alternatively, run OpenCode from anywhere inside a checkout. OpenCode reads the
-root `opencode.json` for Slack MCP and follows the relative symlink adapters
-under `.opencode/` to discover the same seven skills and five namespaced
-commands. Root `skills/` and `commands/` remain the authored sources.
+OpenCode 1.18.18 supports the `command` and remote `mcp` config keys used here.
+The plugin also uses `config.skills.paths`; this field is not exposed by the
+public 1.18.18 type, so its support is an isolated, runtime-verified
+compatibility assumption.
 
 #### Configure an eligible Slack app
 
@@ -106,8 +91,22 @@ authenticated before enabling MCP server access, enable it first and then run
 `opencode mcp auth slack` again. If OpenCode reuses the earlier authorization,
 run `opencode mcp logout slack` before authenticating again.
 
-`SLACK_OPENCODE_CLIENT_ID` intentionally contains a placeholder. No client
-secret is needed for this PKCE flow.
+`SLACK_OPENCODE_CLIENT_ID` is read through the config value
+`{env:SLACK_OPENCODE_CLIENT_ID}`. Never commit a client ID, client secret, or
+token. No client secret is needed for this PKCE flow.
+
+The plugin registers Slack MCP as:
+
+```json
+{
+  "type": "remote",
+  "url": "https://mcp.slack.com/mcp",
+  "oauth": {
+    "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
+    "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
+  }
+}
+```
 
 #### Use the skills and commands
 
@@ -137,9 +136,8 @@ For example, run `/slack-summarize-channel engineering` in an OpenCode session.
 The `slack-*` namespace avoids collisions with generic project commands.
 
 **Advanced: bearer-token fallback.** If your eligible app already issued a user
-token with the required Slack MCP scopes, replace the `oauth` block in your
-OpenCode config (`opencode.json` in a checkout, or
-`~/.config/opencode/opencode.json` for a global install) with:
+token with the required Slack MCP scopes, configure the existing `mcp.slack`
+entry with:
 
 ```json
 "oauth": false,

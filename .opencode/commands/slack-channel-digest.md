@@ -1,1 +1,0 @@
-../../commands/channel-digest.md

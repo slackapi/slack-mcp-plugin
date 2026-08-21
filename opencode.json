@@ -1,13 +1,4 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "slack": {
-      "type": "remote",
-      "url": "https://mcp.slack.com/mcp",
-      "oauth": {
-        "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
-        "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
-      }
-    }
-  }
+  "plugin": ["slack@git+https://github.com/slackapi/slack-skills-plugin.git"]
 }

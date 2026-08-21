@@ -2,6 +2,7 @@
   "name": "slack",
   "version": "1.2.0",
   "private": true,
+  "main": ".opencode/plugins/slack.js",
   "engines": {
     "node": ">=26"
   },

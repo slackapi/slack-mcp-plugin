@@ -164,65 +164,54 @@ Codex support currently ships only the skills; the hosted MCP server is not yet 
 
 ### Testing in OpenCode
 
-OpenCode support is both repository-local and globally installable. The root
-`skills/` and `commands/` directories are canonical. Relative symlinks under
-`.opencode/` adapt them to OpenCode's native discovery paths for the
-repository-local mode; the global installer (below) copies the same content into
-`~/.config/opencode/` for use outside a checkout.
+OpenCode 1.18.18 or newer loads the native git-backed plugin from the OpenCode
+config's `plugin` array:
 
-#### Global installer
-
-The global installer (`scripts/opencode.py`) mirrors `scripts/cursor.py`:
-
-```sh
-make opencode-install   # copy 7 skills + 5 commands + Slack MCP config globally
-make opencode-uninstall # remove only what the installer owns
-make opencode-sync      # re-copy owned content to match canonical sources
+```json
+{
+  "plugin": [
+    "slack@git+https://github.com/slackapi/slack-skills-plugin.git"
+  ]
+}
 ```
 
-`opencode-install` copies the seven canonical skills into
-`~/.config/opencode/skills/`, the five namespaced `slack-*` commands into
-`~/.config/opencode/commands/`, and merges the Slack MCP entry into
-`~/.config/opencode/opencode.json`. It **copies** rather than symlinks: symlinks
-into a checkout break the moment the checkout moves or is deleted, whereas
-copies are self-contained. The trade-off is that copies drift from canonical as
-`skills/` and `commands/` evolve, so the installer records exactly what it owns
-in a manifest (`.slack-skills-plugin.json`) and `install`/`sync` re-copy owned
-content back to canonical on every run. `uninstall` removes only manifest-owned
-files and surgically removes the `mcp.slack` entry, leaving the user's own
-skills, commands, and config keys untouched.
+The plugin is a thin `config` hook. It leaves `skills/` and `commands/` as the
+authoritative sources, registers seven skills, five `slack-*` commands, and the
+remote Slack MCP server in memory and creates no filesystem state. Registration
+is idempotent. An existing `mcp.slack` entry is explicitly
+preserved rather than overwritten.
 
-Config merge is deliberately conservative. The installer merges into an existing
-`opencode.json` without clobbering other servers or plugins. It never rewrites
-`opencode.jsonc`, because JSONC comments cannot be safely round-tripped. No
-secret is ever written: the MCP entry uses `{env:SLACK_OPENCODE_CLIENT_ID}`.
+OpenCode 1.18.18 supports the `command` and remote `mcp` keys. Skill discovery
+uses `config.skills.paths`, which is not present in the public 1.18.18 type; keep
+this runtime-verified compatibility assumption isolated to the plugin and its
+focused tests.
 
-To validate the installer, run the parity, idempotency, collision, uninstall,
-and no-secrets checks in `tests/unit/test_opencode_installer.py` via
-`make test-unit`, then exercise the real path manually with a scratch config
-directory:
+The MCP OAuth configuration uses these non-secret fields:
 
-```sh
-export XDG_CONFIG_HOME="$(mktemp -d)"
-make opencode-install
-make opencode-install          # idempotent: second run is a no-op
-opencode --pure debug skill    # lists the seven canonical skills
-opencode --pure debug config   # lists the five slack-* commands
-make opencode-uninstall
-unset XDG_CONFIG_HOME
+```json
+{
+  "type": "remote",
+  "url": "https://mcp.slack.com/mcp",
+  "oauth": {
+    "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
+    "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
+  }
+}
 ```
 
-#### Repository-local validation
+Never commit or print Slack client IDs, client secrets, or tokens. For app
+eligibility, scopes, PKCE, and OAuth setup, follow the README.
 
-Run the structural suite for adapter parity:
+#### Native config-hook validation
+
+Run the focused OpenCode registration tests with the normal unit target:
 
 ```sh
 make test-unit
 ```
 
-Parity validation checks that all seven skill adapters and five namespaced
-command adapters resolve to their canonical sources, that nested skill
-references remain reachable, and that no unnamespaced OpenCode commands exist.
+The tests cover registration, discoverability, command names, remote MCP fields,
+idempotency, collision preservation, and credential safety.
 
 For a read-only smoke test, use an eligible internal Slack app configured as
 described in the README. Enable MCP server access from the app's **App

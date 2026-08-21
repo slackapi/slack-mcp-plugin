@@ -6,7 +6,7 @@ RUMDL := $(VENV)/bin/rumdl
 MYPY := $(VENV)/bin/mypy
 DEEPEVAL := $(VENV)/bin/deepeval
 
-TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall opencode-install opencode-uninstall opencode-sync
+TARGETS := help install install-test install-tools clean lint format typecheck test test-unit test-eval cursor-install cursor-uninstall
 
 .PHONY: $(TARGETS)
 
@@ -36,15 +36,6 @@ cursor-install: $(VENV) ## Install this plugin into a local Cursor for developme
 
 cursor-uninstall: $(VENV) ## Uninstall this plugin from the local Cursor install
 	$(PYTHON) scripts/cursor.py uninstall
-
-opencode-install: $(VENV) ## Install this plugin's OpenCode mode globally (~/.config/opencode)
-	$(PYTHON) scripts/opencode.py install
-
-opencode-uninstall: $(VENV) ## Uninstall this plugin's OpenCode mode from ~/.config/opencode
-	$(PYTHON) scripts/opencode.py uninstall
-
-opencode-sync: $(VENV) ## Re-copy installed OpenCode skills/commands to match the canonical sources
-	$(PYTHON) scripts/opencode.py sync
 
 lint: ## Run linter checks (ruff for Python, rumdl for Markdown)
 	$(RUFF) check .

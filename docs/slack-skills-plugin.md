@@ -13,8 +13,7 @@ The Slack MCP server is configured automatically when the plugin loads. You'll b
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code or Cursor. OpenCode support uses a
-repository-local checkout instead of a marketplace installation.
+You can install the plugin for Claude Code, Cursor, or OpenCode.
 
 ### Installing the plugin for Claude Code
 
@@ -36,43 +35,47 @@ Alternatively, search for "slack" in the Cursor plugin marketplace. This install
 
 ### Using the plugin with OpenCode
 
-OpenCode 1.18.18 or newer supports the plugin in two ways: a global install, or
-running from inside a checkout.
+OpenCode 1.18.18 or newer loads the native git-backed plugin from the config's
+`plugin` array:
 
-#### Global install
-
-Clone the repository and run the installer:
-
-```sh
-git clone https://github.com/slackapi/slack-skills-plugin.git
-cd slack-skills-plugin
-make opencode-install
+```json
+{
+  "plugin": [
+    "slack@git+https://github.com/slackapi/slack-skills-plugin.git"
+  ]
+}
 ```
 
-This copies the seven skills into `~/.config/opencode/skills/`, the five
-namespaced commands into `~/.config/opencode/commands/`, and the Slack MCP entry
-into `~/.config/opencode/opencode.json`. It merges into an existing config
-without disturbing other servers or plugins, records what it owns, and
-`make opencode-uninstall` removes only what it installed. Run
-`make opencode-sync` to re-copy owned content after updating the checkout.
+The plugin is a thin native `config` hook. It keeps the root `skills/` and
+`commands/` directories authoritative, registers seven skills, five `slack-*`
+commands, and Slack MCP in memory, and does not manage installation files.
+Registration is idempotent. If `mcp.slack` already exists, the plugin preserves
+it explicitly instead of replacing it.
 
-#### Repository-local
+OpenCode 1.18.18 supports the `command` and remote `mcp` config keys used by
+the plugin. Skill registration relies on `config.skills.paths`; that field is not
+exposed by the public 1.18.18 type, so the assumption is isolated and verified
+against the runtime.
 
-Alternatively, run OpenCode from inside a checkout. The checkout provides three
-surfaces:
+The five commands are `slack-channel-digest`, `slack-draft-announcement`,
+`slack-find-discussions`, `slack-standup`, and `slack-summarize-channel`.
 
-* Slack MCP configuration from the repository-root `opencode.json`.
-* Seven canonical skills exposed through relative symlinks in
-  `.opencode/skills/`.
-* Five namespaced commands exposed through relative symlinks in
-  `.opencode/commands/`: `slack-channel-digest`, `slack-draft-announcement`,
-  `slack-find-discussions`, `slack-standup`, and `slack-summarize-channel`.
+The Slack MCP OAuth fields are:
 
-The symlinks keep the root `skills/` and `commands/` directories authoritative,
-so the OpenCode mode uses the same workflows as Claude Code and Cursor rather
-than maintaining another copy. See the repository README for internal Slack app
-eligibility, PKCE, user scopes, admin approval, App Assistant MCP enablement,
-authentication, and command examples.
+```json
+{
+  "type": "remote",
+  "url": "https://mcp.slack.com/mcp",
+  "oauth": {
+    "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
+    "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
+  }
+}
+```
+
+Keep client IDs, client secrets, and tokens out of documentation and source.
+See the repository README for Slack app eligibility, PKCE, scopes, admin
+approval, App Assistant MCP enablement, authentication, and command examples.
 
 ---
 

@@ -1,1 +1,0 @@
-../../commands/draft-announcement.md

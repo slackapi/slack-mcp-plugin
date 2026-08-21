@@ -85,7 +85,7 @@ Name the concrete identifiers you find (the actual command and callback names), 
 For every registered interaction, give the developer a concrete step and what a working app should do in response. A few spots are non-obvious, so spell them out:
 
 - **Slash command** → type the command (for example `/ship`) in a channel or DM in the sandbox → expect the response the handler sends.
-- **Global shortcut** → open the shortcuts menu (the ⚡ icon by the message box) and pick it → expect the modal or message it opens.
+- **Global shortcut** → open the shortcuts menu (the lightning-bolt or `+` button in the message composer, depending on your client) and pick it → expect the modal or message it opens.
 - **Message shortcut** → hover a message, open **More actions** (the `⋯` menu), pick the shortcut → expect its response.
 - **Event** such as `app_mention` → @-mention the app in a channel it belongs to → expect its reply.
 - **Button or select** → click the component in a message or modal the app posted → expect what the action handler does.

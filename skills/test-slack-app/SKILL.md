@@ -55,7 +55,7 @@ Follow **Step 6: Running an App Locally (`slack run`)** in the `slack:slack-cli`
 If the app is a plain Bolt app started with `node` or `python` rather than the Slack CLI, this skill can still help, but the run path is best-effort and not the primary flow:
 
 - Point the app at the sandbox: set its bot and app-level tokens (from the sandbox app's settings) in the environment or the `.env` file the app reads.
-- Prefer socket mode so the app needs no public URL.
+- Prefer socket mode so the app needs no public URL. This works only if the app is coded for socket mode and the app-level token has `connections:write`; adding tokens to an app scaffolded for HTTP will not deliver events.
 - Start the app with its own command (for example `npm start` or `python app.py`) and watch its logs.
 
 Say plainly that this path is best-effort, and that the smoothest experience comes from a CLI-managed app.

@@ -1,6 +1,6 @@
 ---
 name: test-slack-app
-description: Use when someone wants to test, try out, smoke-test, verify, or confirm that an existing Slack app actually works the way they expect, especially a non-technical developer who built it with a coding agent. This is guided manual checking that runs the app in a developer sandbox, never a workspace with real users. To scaffold a new app instead, use create-slack-app; to only run it or tail logs, use slack-cli.
+description: Use when a developer wants to test, try out, smoke-test, verify, or confirm that a Slack app built with the Slack CLI (or a plain Bolt app) actually works, by running it in a developer sandbox (never a workspace with real users) with `slack run` and exercising its real slash commands, shortcuts, events, actions, modals, App Home, and assistant surfaces. Also covers `slack doctor` and `slack manifest validate` health checks before hands-on testing.
 ---
 
 # Test Slack App
@@ -44,7 +44,7 @@ Surface anything these flag before moving on.
 
 ## Step 2: Run the App
 
-Whichever path you use below, first turn the app's log level up to debug so you have the most context while testing. Read the app's source to find where the log level is set, and switch it to debug for this work before starting the app.
+Whichever path you use below, first turn the app's log level up to debug so you have the most context while testing. Prefer a way that leaves the developer's code untouched: read the logger setup to see whether it reads a log-level environment variable (some templates wire one such as `SLACK_LOG_LEVEL` or `LOG_LEVEL`). If it does, set that variable instead of editing source. For a CLI-managed app, `SLACK_CMD env set <LOG_LEVEL_VAR> debug` stores it in the project `.env` that `slack run` reads; for a plain Bolt app, set it in the environment or `.env` the app already reads. Only when the logger reads no such variable should you edit the source, finding where the log level is set and switching it to debug for this run.
 
 ### CLI-managed apps (recommended)
 

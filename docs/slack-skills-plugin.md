@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, and Codex.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, and Codex, and you can install the skills on their own into dozens of other agents.
 
 Installing the plugin sets up two things:
 
@@ -15,7 +15,7 @@ On Codex, the plugin installs the skills only. The Slack MCP server is not yet a
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code, Cursor, or Codex.
+You can install the plugin for Claude Code, Cursor, or Codex, or install the skills on their own for another agent.
 
 ### Installing the plugin for Claude Code
 
@@ -45,6 +45,18 @@ codex plugin add slack@slack
 ```
 
 This installs the skills only. Because the Slack MCP server is not yet available on Codex, the `slack-search` skill cannot query your workspace there.
+
+### Installing the skills for another agent
+
+The skills can be installed on their own into any of the 77 agents supported by the [`skills` CLI](https://github.com/vercel-labs/skills#supported-agents), including Gemini CLI, OpenCode, Zed, and Warp:
+
+```sh
+npx skills add slackapi/slack-skills-plugin -a <agent>
+```
+
+Pass the agent's own identifier (`gemini-cli`, `opencode`, `zed`), or use `-a '*'` for every agent detected in your project. Add `--list` to see the available skills without installing them.
+
+This installs the skills only. There is no MCP server on this path, so the `slack-search` skill cannot query your workspace.
 
 ---
 

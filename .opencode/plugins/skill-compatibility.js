@@ -10,6 +10,7 @@ export const CANONICAL_SKILL_NAMES = Object.freeze([
   "slack-docs",
   "slack-messaging",
   "slack-search",
+  "test-slack-app",
 ]);
 
 const isRecord = (value) => value !== null && typeof value === "object";

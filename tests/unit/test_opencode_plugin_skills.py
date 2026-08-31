@@ -13,6 +13,7 @@ EXPECTED_SKILLS = {
     "slack-docs",
     "slack-messaging",
     "slack-search",
+    "test-slack-app",
 }
 
 
@@ -41,7 +42,7 @@ console.log(JSON.stringify(input));"""
 
 
 class TestOpenCodePluginSkills:
-    def test_hook_path_discovers_exactly_the_canonical_seven_skills(self) -> None:
+    def test_hook_path_discovers_exactly_the_canonical_skills(self) -> None:
         # Arrange
         initial_config: dict[str, object] = {"other": {"keep": True}}
 
@@ -56,7 +57,7 @@ class TestOpenCodePluginSkills:
         # Assert
         discovered = {path.parent.name for path in skill_root.glob("*/SKILL.md")}
         assert discovered == EXPECTED_SKILLS
-        assert len(discovered) == 7
+        assert len(discovered) == 8
         assert skill_root.resolve() == CANONICAL_SKILLS_ROOT.resolve()
 
     def test_runtime_skills_boundary_adds_missing_paths_without_requiring_public_sdk_field(self) -> None:

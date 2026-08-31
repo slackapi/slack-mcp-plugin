@@ -71,6 +71,19 @@ GitHub Actions (`.github/workflows/ci-build.yml`) gates every PR with:
 
 The eval job reads the `GEMINI_API_KEY_*` (e.g. `GEMINI_API_KEY_BOB`, `GEMINI_API_KEY_MIC`) and `SLACK_MCP_TOKEN` repository secrets; it skips on PRs from forks, which don't receive secrets. The workflow also runs nightly on a schedule, and a `notifications` job posts to Slack (via `SLACK_REGRESSION_FAILURES_WEBHOOK_URL`) when a job fails on `main`.
 
+## Public documentation
+
+`docs/` is published to [docs.slack.dev](https://docs.slack.dev/ai/slack-skills-plugin). The `slackapi/docs` repo syncs this directory from `main` (see its `sources.json`), so editing `docs/slack-skills-plugin.md` here is the whole job: there is no second PR to open, and the change goes live when it merges.
+
+**Any change to what a public developer can see or do must update `docs/` in the same PR.** Treat it like the changeset, not a follow-up. That includes:
+
+- A new install path, or a change to an existing install command
+- Adding, removing, or renaming a skill, which also means the skills table
+- A capability that differs by surface (Claude Code, Cursor, Codex): say so explicitly rather than leaving a developer to infer it
+- Anything that makes an existing statement on the page wrong, including the list of supported tools
+
+`README.md` covers the same ground for people arriving via GitHub, so the same PR usually needs the matching edit there. Check both.
+
 ## Releasing
 
 Releases are automated and run in CI: **you never run a release yourself.** Your only release-related task is adding a changeset when a PR makes a user-facing change.

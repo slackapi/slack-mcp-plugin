@@ -44,8 +44,6 @@ codex plugin marketplace add slackapi/slack-skills-plugin
 codex plugin add slack@slack
 ```
 
-Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention, for example `$block-kit`.
-
 This installs the skills only. Because the Slack MCP server is not yet available on Codex, the `slack-search` skill cannot query your workspace there.
 
 ---

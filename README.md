@@ -42,15 +42,15 @@ Codex support currently ships the skills only; the MCP server is not yet wired i
 
 ### Other agents
 
-The skills install into any of the 77 agents supported by the [`skills` CLI][skills-cli], including Gemini CLI, OpenCode, Zed, Warp, and Amp, with no plugin marketplace required for that agent:
+The skills install into any of the 77 agents supported by the [`skills` CLI][skills-cli], with no plugin marketplace required for that agent:
 
 ```sh
 npx skills add slackapi/slack-skills-plugin -a <agent>
 ```
 
-Pass the agent's own identifier (`gemini-cli`, `opencode`, `zed`), repeat `-a` for several at once, or use `-a '*'` for every agent it detects. `--list` previews the skills without installing them, and `-g` installs for your user instead of the current project.
+Name the agent with its own identifier, for example `crush`, `devin`, `gemini-cli`, `hermes-agent`, `openclaw`, `opencode`, or `pi`. Repeat `-a` to reach several at once, or use `-a '*'` for every agent it detects. `--list` previews the skills without installing them, and `-g` installs for your user instead of the current project.
 
-Skills land in the agent's project directory (`.agents/skills/` for most agents, `.claude/skills/` for Claude Code), and a `skills-lock.json` at the project root records a hash per skill so `npx skills update` re-syncs them after a release here.
+Skills land in whichever project directory that agent reads (`.agents/skills/` for Gemini CLI and OpenCode, `.crush/skills/` for Crush, `.claude/skills/` for Claude Code), and a `skills-lock.json` at the project root records a hash per skill so `npx skills update` re-syncs them after a release here.
 
 This path carries the skills only: no commands, and no MCP server.
 

@@ -2,7 +2,7 @@
 "slack": patch
 ---
 
-Document installing the skills with the `skills` CLI, which reaches 77 agents beyond the three with a plugin surface (Gemini CLI, OpenCode, Zed, Warp, Amp, and more):
+Document installing the skills with the `skills` CLI, which reaches 77 agents beyond the three with a plugin surface (Crush, Devin, Gemini CLI, Hermes, OpenClaw, OpenCode, Pi, and more):
 
 ```sh
 npx skills add slackapi/slack-skills-plugin -a <agent>

@@ -48,13 +48,25 @@ This installs the skills only. Because the Slack MCP server is not yet available
 
 ### Installing the skills for another agent
 
-The skills can be installed on their own into any of the 77 agents supported by the [`skills` CLI](https://github.com/vercel-labs/skills#supported-agents), including Gemini CLI, OpenCode, Zed, and Warp:
+The skills can be installed on their own into any of the 77 agents supported by the [`skills` CLI](https://github.com/vercel-labs/skills#supported-agents):
 
 ```sh
 npx skills add slackapi/slack-skills-plugin -a <agent>
 ```
 
-Pass the agent's own identifier (`gemini-cli`, `opencode`, `zed`), or use `-a '*'` for every agent detected in your project. Add `--list` to see the available skills without installing them.
+Name the agent with its own identifier. A few of the popular ones, along with where each installs the skills in your project:
+
+| Agent | Identifier | Skills directory |
+|-------|------------|------------------|
+| Crush | `crush` | `.crush/skills/` |
+| Devin for Terminal | `devin` | `.devin/skills/` |
+| Gemini CLI | `gemini-cli` | `.agents/skills/` |
+| Hermes Agent | `hermes-agent` | `.hermes/skills/` |
+| OpenClaw | `openclaw` | `skills/` |
+| OpenCode | `opencode` | `.agents/skills/` |
+| Pi | `pi` | `.pi/skills/` |
+
+Repeat `-a` to reach several agents at once, or use `-a '*'` for every agent detected in your project. Add `--list` to see the available skills without installing them.
 
 This installs the skills only. There is no MCP server on this path, so the `slack-search` skill cannot query your workspace.
 

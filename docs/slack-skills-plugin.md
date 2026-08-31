@@ -50,7 +50,11 @@ This installs the skills only. Because the Slack MCP server is not yet available
 
 The skills can be installed on their own into other coding agents with [`npx skills`](https://github.com/vercel-labs/skills), naming the agent you want:
 
-```sh
+```bash
+# Install the skills for a coding agent, named by its own identifier
+npx skills add slackapi/slack-skills-plugin -a <agent>
+
+# For example, Gemini CLI or OpenCode
 npx skills add slackapi/slack-skills-plugin -a gemini-cli
 npx skills add slackapi/slack-skills-plugin -a opencode
 ```

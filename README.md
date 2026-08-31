@@ -44,7 +44,11 @@ Codex support currently ships the skills only; the MCP server is not yet wired i
 
 The skills install into other coding agents with [`npx skills`][npx-skills], no plugin marketplace required:
 
-```sh
+```bash
+# Install the skills for a coding agent, named by its own identifier
+npx skills add slackapi/slack-skills-plugin -a <agent>
+
+# For example, Gemini CLI or OpenCode
 npx skills add slackapi/slack-skills-plugin -a gemini-cli
 npx skills add slackapi/slack-skills-plugin -a opencode
 ```

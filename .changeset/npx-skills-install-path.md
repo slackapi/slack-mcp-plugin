@@ -4,7 +4,11 @@
 
 Document installing the skills with `npx skills`, which reaches coding agents beyond the three with a plugin surface:
 
-```sh
+```bash
+# Install the skills for a coding agent, named by its own identifier
+npx skills add slackapi/slack-skills-plugin -a <agent>
+
+# For example, Gemini CLI or OpenCode
 npx skills add slackapi/slack-skills-plugin -a gemini-cli
 npx skills add slackapi/slack-skills-plugin -a opencode
 ```

@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, and Codex, and you can install the skills on their own into dozens of other agents.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, Codex, and other coding agents.
 
 Installing the plugin sets up two things:
 
@@ -15,7 +15,7 @@ On Codex, the plugin installs the skills only. The Slack MCP server is not yet a
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code, Cursor, or Codex, or install the skills on their own for another agent.
+You can install the plugin for Claude Code, Cursor, Codex, and other coding agents.
 
 ### Installing the plugin for Claude Code
 
@@ -46,27 +46,16 @@ codex plugin add slack@slack
 
 This installs the skills only. Because the Slack MCP server is not yet available on Codex, the `slack-search` skill cannot query your workspace there.
 
-### Installing the skills for another agent
+### Installing the skills for other agents
 
-The skills can be installed on their own into any of the 77 agents supported by the [`skills` CLI](https://github.com/vercel-labs/skills#supported-agents):
+The skills can be installed on their own into other coding agents with [`npx skills`](https://github.com/vercel-labs/skills), naming the agent you want:
 
 ```sh
-npx skills add slackapi/slack-skills-plugin -a <agent>
+npx skills add slackapi/slack-skills-plugin -a gemini-cli
+npx skills add slackapi/slack-skills-plugin -a opencode
 ```
 
-Name the agent with its own identifier. A few of the popular ones, along with where each installs the skills in your project:
-
-| Agent | Identifier | Skills directory |
-|-------|------------|------------------|
-| Crush | `crush` | `.crush/skills/` |
-| Devin for Terminal | `devin` | `.devin/skills/` |
-| Gemini CLI | `gemini-cli` | `.agents/skills/` |
-| Hermes Agent | `hermes-agent` | `.hermes/skills/` |
-| OpenClaw | `openclaw` | `skills/` |
-| OpenCode | `opencode` | `.agents/skills/` |
-| Pi | `pi` | `.pi/skills/` |
-
-Repeat `-a` to reach several agents at once, or use `-a '*'` for every agent detected in your project. Add `--list` to see the available skills without installing them.
+Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents](https://github.com/vercel-labs/skills#supported-agents) for the full list of agents and their identifiers.
 
 This installs the skills only. There is no MCP server on this path, so the `slack-search` skill cannot query your workspace.
 

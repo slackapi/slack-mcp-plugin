@@ -42,15 +42,14 @@ Codex support currently ships the skills only; the MCP server is not yet wired i
 
 ### Other agents
 
-The skills install into any of the 77 agents supported by the [`skills` CLI][skills-cli], with no plugin marketplace required for that agent:
+The skills install into other coding agents with [`npx skills`][npx-skills], no plugin marketplace required:
 
 ```sh
-npx skills add slackapi/slack-skills-plugin -a <agent>
+npx skills add slackapi/slack-skills-plugin -a gemini-cli
+npx skills add slackapi/slack-skills-plugin -a opencode
 ```
 
-Name the agent with its own identifier, for example `crush`, `devin`, `gemini-cli`, `hermes-agent`, `openclaw`, `opencode`, or `pi`. Repeat `-a` to reach several at once, or use `-a '*'` for every agent it detects. `--list` previews the skills without installing them, and `-g` installs for your user instead of the current project.
-
-Skills land in whichever project directory that agent reads (`.agents/skills/` for Gemini CLI and OpenCode, `.crush/skills/` for Crush, `.claude/skills/` for Claude Code), and a `skills-lock.json` at the project root records a hash per skill so `npx skills update` re-syncs them after a release here.
+Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents][npx-skills] for the full list of agents and their identifiers. Add `-g` to install for your user instead of the current project.
 
 This path carries the skills only: no commands, and no MCP server.
 
@@ -118,7 +117,7 @@ Working on the plugin itself? See the [maintainer's guide](.github/maintainers_g
 [cursor]: https://cursor.com
 [codex-cli]: https://developers.openai.com/codex/cli
 [slack-mcp-docs]: https://docs.slack.dev/ai/mcp-server/
-[skills-cli]: https://github.com/vercel-labs/skills#supported-agents
+[npx-skills]: https://github.com/vercel-labs/skills#supported-agents
 [slack-cli]: https://tools.slack.dev/slack-cli
 [bolt]: https://tools.slack.dev/bolt-js
 [block-kit]: https://app.slack.com/block-kit-builder

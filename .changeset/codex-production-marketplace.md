@@ -9,7 +9,7 @@ codex plugin marketplace add slackapi/slack-skills-plugin
 codex plugin add slack@slack
 ```
 
-Codex resolves marketplace manifests from a fixed set of relative paths, so `.agents/plugins/marketplace.json` is the manifest developers get from this repo. It previously shipped as `slack-dev` with display name `Slack (dev)`, named for the plugin team's local testing rather than for the public install path it actually served, which made the install command read `slack@slack-dev`.
+Until now the only marketplace this repo published was named `slack-dev`, so installing the plugin meant adding a marketplace labelled "dev" and running `codex plugin add slack@slack-dev`.
 
 If you installed under the old name, remove it before re-adding: Codex treats the two marketplaces as unrelated and will leave both installed and enabled.
 

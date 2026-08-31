@@ -94,3 +94,4 @@ Most of the skills work on their own, without a connection to the [Slack MCP ser
 | `slack-docs` | Search and read current Slack platform documentation from [docs.slack.dev](https://docs.slack.dev). | _"Find the Slack docs for app manifests and summarize the required fields."_ |
 | `slack-messaging` | Compose well-formatted Slack messages using standard markdown. | _"Draft a release announcement message with a bulleted list of changes."_ |
 | `slack-search` | Search Slack effectively to find messages, files, channels, and people. Requires a Slack MCP Server connection. | _"Find the channel where we discuss the platform roadmap."_ |
+| `test-slack-app` | Run an existing Slack app in a [developer sandbox](/tools/developer-sandboxes) and get guided, source-specific steps to confirm it works in Slack. | _"Help me check that my Slack app actually works."_ |

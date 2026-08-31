@@ -1,6 +1,6 @@
 ---
 name: slack-docs
-description: "Search and read the official Slack platform documentation at docs.slack.dev. Use this skill to answer conceptual or how-to questions about Slack features. You can also use it to look up, fetch, or summarize specific guide pages from provided docs.slack.dev links."
+description: "Use when answering a conceptual or how-to question about Slack platform features, or when asked to look up, fetch, or summarize a docs.slack.dev page, including a pasted docs.slack.dev link. Covers finding and reading official Slack docs as clean markdown."
 argument-hint: "[topic or docs.slack.dev URL]"
 ---
 

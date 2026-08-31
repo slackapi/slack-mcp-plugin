@@ -179,6 +179,11 @@ SCENARIOS: list[Scenario] = [
         "prompt": "How do I call the conversations.history endpoint with curl?",
         "accepted_tools": ["slack-api"],
     },
+    {
+        "id": "skill-test-slack-app",
+        "prompt": "Help me test that my Slack app actually works",
+        "accepted_tools": ["test-slack-app"],
+    },
 ]
 
 

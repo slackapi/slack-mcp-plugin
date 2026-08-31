@@ -1,5 +1,17 @@
 # slack
 
+## 1.3.0
+
+### Minor Changes
+
+- c961f03: Add the test-slack-app skill: guide developers through running an app in a developer sandbox and verifying it responds in Slack.
+
+### Patch Changes
+
+- 77a1079: Clarify Claude and Cursor plugin manifest descriptions so both user and developer audiences are discoverable. The Codex manifest describes skills only and does not claim workspace interaction, since the MCP server is not wired into the Codex surface.
+- c17458c: Sharpen the slack-messaging and slack-search skill guidance: clearer trigger descriptions, accurate standard-markdown formatting rules (tables, headers, code blocks), more search modifiers and parameters, and scope notes linking to related skills.
+- 1251c73: Standardize every skill `description` to lead with its triggering conditions in consistent, impersonal phrasing, so the right skill loads more reliably for a given task. Documents the description convention in the maintainers guide and adds unit checks (length cap, trigger cue, impersonal voice) to keep future skills aligned.
+
 ## 1.2.0
 
 ### Minor Changes

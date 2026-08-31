@@ -47,6 +47,10 @@ When one `SKILL.md` references another skill (e.g., to delegate a step instead o
 
 See `skills/create-slack-app/SKILL.md` Step 1a for an example.
 
+## Skill descriptions
+
+A skill's `description` frontmatter is the only signal an agent uses to decide whether to load the skill. When adding or editing a skill, follow the repo's description conventions: lead with the trigger ("Use when …"), write impersonally, and pack in Slack-specific keywords. The full standard lives in the [maintainers guide](.github/maintainers_guide.md#authoring-skills). For general skill-authoring mechanics, invoke the `superpowers:writing-skills` skill.
+
 ## Testing
 
 Two test layers validate skills:

@@ -154,15 +154,16 @@ uninstall, in addition to removing the virtualenv and other generated files.)
 
 ### Testing in Codex
 
-Codex loads plugins only from a marketplace. The repo ships a development marketplace at
-`.agents/plugins/marketplace.json` that points at this checkout, so you can add
-it as a local marketplace and install the plugin from it.
+Codex loads plugins only from a marketplace. The repo ships the `slack` marketplace at
+`.agents/plugins/marketplace.json`, which is both the public listing developers add
+with `codex plugin marketplace add slackapi/slack-skills-plugin` and the one you point
+at a local checkout for development.
 
-Register the local marketplace and install the `slack` plugin:
+Register your checkout as the marketplace and install the `slack` plugin:
 
 ```sh
 codex plugin marketplace add ./
-codex plugin add slack@slack-dev
+codex plugin add slack@slack
 ```
 
 `codex plugin list` shows the plugin; `codex /plugins` opens the same flow interactively. Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention, for example `$block-kit`.
@@ -170,9 +171,14 @@ codex plugin add slack@slack-dev
 To remove it
 
 ```sh
-codex plugin remove slack@slack-dev
-codex plugin marketplace remove slack-dev
+codex plugin remove slack@slack
+codex plugin marketplace remove slack
 ```
+
+Codex resolves marketplace manifests from four hard-coded relative paths, so a
+separate `marketplace.dev.json` is not an option. Working on the plugin locally is
+handled by pointing Codex at your checkout, as above, rather than by shipping a
+second manifest.
 
 Codex support currently ships only the skills; the hosted MCP server is not yet wired into the Codex surface.
 

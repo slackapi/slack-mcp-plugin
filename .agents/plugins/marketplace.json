@@ -1,7 +1,7 @@
 {
-  "name": "slack-dev",
+  "name": "slack",
   "interface": {
-    "displayName": "Slack (dev)"
+    "displayName": "Slack"
   },
   "plugins": [
     {

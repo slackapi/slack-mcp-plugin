@@ -154,12 +154,12 @@ uninstall, in addition to removing the virtualenv and other generated files.)
 
 ### Testing in Codex
 
-Codex loads plugins only from a marketplace. The repo ships the `slack` marketplace at
-`.agents/plugins/marketplace.json`, which is both the public listing developers add
-with `codex plugin marketplace add slackapi/slack-skills-plugin` and the one you point
-at a local checkout for development.
+Codex loads plugins only from a marketplace, and a marketplace source can be a local
+directory, so your checkout serves as one. The repo ships the `slack` marketplace at
+`.agents/plugins/marketplace.json`, which is both the public listing and the local
+marketplace root you point Codex at while developing.
 
-Register your checkout as the marketplace and install the `slack` plugin:
+From the repo root, register the checkout as a marketplace and install the plugin from it:
 
 ```sh
 codex plugin marketplace add ./
@@ -167,6 +167,16 @@ codex plugin add slack@slack
 ```
 
 `codex plugin list` shows the plugin; `codex /plugins` opens the same flow interactively. Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention, for example `$block-kit`.
+
+**Re-run `codex plugin add slack@slack` after every change.** Installing copies your
+checkout into `~/.codex/plugins/cache/slack/slack/<version>/`, and Codex loads that copy
+rather than reading your working tree, so edits do not show up on their own. Re-running
+the install overwrites the copy in place, with no version bump required; start a new Codex
+session and the change is live. The copy is taken from the working tree, so uncommitted
+changes are picked up as-is and there is no need to commit first.
+
+`codex plugin marketplace upgrade` will not do this for you. It only refreshes Git
+marketplace snapshots, and errors on a marketplace added from a local path.
 
 To remove it
 

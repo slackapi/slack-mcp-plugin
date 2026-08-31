@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code and Cursor.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, and Codex.
 
 Installing the plugin sets up two things:
 
@@ -9,11 +9,13 @@ Installing the plugin sets up two things:
 
 The Slack MCP server is configured automatically when the plugin loads. You'll be prompted to authenticate into your Slack workspace via OAuth. Full setup details vary depending on the AI tool you are using.
 
+On Codex, the plugin installs the skills only. The Slack MCP server is not yet available on that surface, so there is no OAuth prompt.
+
 ---
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code or for Cursor.
+You can install the plugin for Claude Code, Cursor, or Codex.
 
 ### Installing the plugin for Claude Code
 
@@ -32,6 +34,19 @@ The plugin is published on the [official Cursor Marketplace](https://cursor.com/
 ```
 
 Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
+
+### Installing the plugin for Codex
+
+The plugin is published as a marketplace in its [GitHub repository](https://github.com/slackapi/slack-skills-plugin). Add the marketplace, then install the plugin:
+
+```sh
+codex plugin marketplace add slackapi/slack-skills-plugin
+codex plugin add slack@slack
+```
+
+Start a new Codex session to pick up the plugin, then invoke a skill by name with a `$` mention, for example `$block-kit`.
+
+This installs the skills only. Because the Slack MCP server is not yet available on Codex, the `slack-search` skill cannot query your workspace there.
 
 ---
 

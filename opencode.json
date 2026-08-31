@@ -1,0 +1,4 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["slack@git+https://github.com/slackapi/slack-skills-plugin.git"]
+}

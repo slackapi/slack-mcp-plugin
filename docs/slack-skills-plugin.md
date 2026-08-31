@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code and Cursor.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, or a repository-local OpenCode session.
 
 Installing the plugin sets up two things:
 
@@ -13,7 +13,7 @@ The Slack MCP server is configured automatically when the plugin loads. You'll b
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code or for Cursor.
+You can install the plugin for Claude Code, Cursor, or OpenCode.
 
 ### Installing the plugin for Claude Code
 
@@ -33,6 +33,50 @@ The plugin is published on the [official Cursor Marketplace](https://cursor.com/
 
 Alternatively, search for "slack" in the Cursor plugin marketplace. This installs the skills, and MCP server together, and prompts OAuth to your Slack workspace on first use.
 
+### Using the plugin with OpenCode
+
+OpenCode 1.18.18 or newer loads the native git-backed plugin from the config's
+`plugin` array:
+
+```json
+{
+  "plugin": [
+    "slack@git+https://github.com/slackapi/slack-skills-plugin.git"
+  ]
+}
+```
+
+The plugin is a thin native `config` hook. It keeps the root `skills/` and
+`commands/` directories authoritative, registers seven skills, five `slack-*`
+commands, and Slack MCP in memory, and does not manage installation files.
+Registration is idempotent. If `mcp.slack` already exists, the plugin preserves
+it explicitly instead of replacing it.
+
+OpenCode 1.18.18 supports the `command` and remote `mcp` config keys used by
+the plugin. Skill registration relies on `config.skills.paths`; that field is not
+exposed by the public 1.18.18 type, so the assumption is isolated and verified
+against the runtime.
+
+The five commands are `slack-channel-digest`, `slack-draft-announcement`,
+`slack-find-discussions`, `slack-standup`, and `slack-summarize-channel`.
+
+The Slack MCP OAuth fields are:
+
+```json
+{
+  "type": "remote",
+  "url": "https://mcp.slack.com/mcp",
+  "oauth": {
+    "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
+    "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
+  }
+}
+```
+
+Keep client IDs, client secrets, and tokens out of documentation and source.
+See the repository README for Slack app eligibility, PKCE, scopes, admin
+approval, App Assistant MCP enablement, authentication, and command examples.
+
 ---
 
 ## Using skills {/* #skills */}
@@ -47,6 +91,7 @@ Most of the skills work on their own, without a connection to the [Slack MCP ser
 | `create-slack-app` | Scaffold a new Slack app or agent with the [Slack CLI](/tools/slack-cli) and [Bolt](/tools#bolt) (JavaScript or Python). | _"Scaffold a new Bolt for JavaScript app that listens for the `app_mention` event."_ |
 | `slack-api` | Discover, navigate, and call [Web API methods](/apis/web-api), surfacing info on required scopes, pagination, rate limits, and error handling. | _"Which Web API method posts a message to a channel, and what scopes does it need?"_ |
 | `slack-cli` | Create, run, and manage Slack apps from the terminal with the [Slack CLI](/tools/slack-cli), and search the Slack docs from the command line. | _"Run my Slack app locally and tail the logs."_ |
+| `slack-docs` | Search and read current Slack platform documentation from [docs.slack.dev](https://docs.slack.dev). | _"Find the Slack docs for app manifests and summarize the required fields."_ |
 | `slack-messaging` | Compose well-formatted Slack messages using standard markdown. | _"Draft a release announcement message with a bulleted list of changes."_ |
 | `slack-search` | Search Slack effectively to find messages, files, channels, and people. Requires a Slack MCP Server connection. | _"Find the channel where we discuss the platform roadmap."_ |
 | `test-slack-app` | Run an existing Slack app in a [developer sandbox](/tools/developer-sandboxes) and get guided, source-specific steps to confirm it works in Slack. | _"Help me check that my Slack app actually works."_ |

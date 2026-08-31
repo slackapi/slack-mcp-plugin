@@ -17,6 +17,8 @@ Maintaining this repo requires:
   verifying that skills and commands work outside Claude Code before release.
 - **[Codex][codex-cli]**: another agentic coding environment. Useful for
   verifying that the skills work outside Claude Code before release.
+- **[OpenCode][opencode]**: supports repository-local validation of the Slack
+  MCP server, seven skills, and five namespaced commands.
 - **Git**: standard version control.
 - **[GitHub CLI (`gh`)][gh-cli]**: for creating PRs as drafts and managing
   issues.
@@ -176,6 +178,80 @@ codex plugin marketplace remove slack-dev
 
 Codex support currently ships only the skills; the hosted MCP server is not yet wired into the Codex surface.
 
+### Testing in OpenCode
+
+OpenCode 1.18.18 or newer loads the native git-backed plugin from the OpenCode
+config's `plugin` array:
+
+```json
+{
+  "plugin": [
+    "slack@git+https://github.com/slackapi/slack-skills-plugin.git"
+  ]
+}
+```
+
+The plugin is a thin `config` hook. It leaves `skills/` and `commands/` as the
+authoritative sources, registers seven skills, five `slack-*` commands, and the
+remote Slack MCP server in memory and creates no filesystem state. Registration
+is idempotent. An existing `mcp.slack` entry is explicitly
+preserved rather than overwritten.
+
+OpenCode 1.18.18 supports the `command` and remote `mcp` keys. Skill discovery
+uses `config.skills.paths`, which is not present in the public 1.18.18 type; keep
+this runtime-verified compatibility assumption isolated to the plugin and its
+focused tests.
+
+The MCP OAuth configuration uses these non-secret fields:
+
+```json
+{
+  "type": "remote",
+  "url": "https://mcp.slack.com/mcp",
+  "oauth": {
+    "clientId": "{env:SLACK_OPENCODE_CLIENT_ID}",
+    "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
+  }
+}
+```
+
+Never commit or print Slack client IDs, client secrets, or tokens. For app
+eligibility, scopes, PKCE, and OAuth setup, follow the README.
+
+#### Native config-hook validation
+
+Run the focused OpenCode registration tests with the normal unit target:
+
+```sh
+make test-unit
+```
+
+The tests cover registration, discoverability, command names, remote MCP fields,
+idempotency, collision preservation, and credential safety.
+
+For a read-only smoke test, use an eligible internal Slack app configured as
+described in the README. Enable MCP server access from the app's **App
+Assistant** page before authenticating. Export only your local client ID; never
+record it in the repository or command output captured in an issue or PR.
+
+```sh
+export SLACK_OPENCODE_CLIENT_ID="your-app-client-id"
+opencode mcp auth slack
+opencode mcp list
+opencode --pure debug skill
+opencode --pure debug config
+opencode
+```
+
+Confirm the MCP list reports Slack connected through OAuth, skill discovery
+contains the seven canonical names, and command configuration contains the five
+`slack-*` names. In the interactive session, invoke a read-only command such as
+`/slack-summarize-channel` against a non-sensitive test channel and ask OpenCode
+to use `slack-search` without sending messages, adding reactions, creating
+channels, or modifying canvases. If MCP access was enabled after an earlier
+authorization, reauthorize with `opencode mcp auth slack`; log out first with
+`opencode mcp logout slack` if OpenCode retains the old grant.
+
 ---
 
 ## Versioning
@@ -259,6 +335,7 @@ Patch and minor updates are auto-approved and auto-merged via the
 [claude-code]: https://claude.ai/code
 [cursor]: https://cursor.com
 [codex-cli]: https://developers.openai.com/codex/cli
+[opencode]: https://opencode.ai
 [gh-cli]: https://cli.github.com
 [conv-commits]: https://www.conventionalcommits.org
 [semver]: https://semver.org

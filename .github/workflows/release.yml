@@ -40,20 +40,19 @@ jobs:
         id: changesets
         uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
-          version: bash scripts/changeset_version.sh
-          publish: npx changeset publish
-          createGithubReleases: true
-          commit: "chore: release"
-          title: "chore: release"
-          prDraft: create
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: release"
+          create-github-releases: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-draft: create
+          pr-title: "chore: release"
+          publish-script: npx changeset publish
+          version-script: bash scripts/changeset_version.sh
       - name: Get publication details
         id: release
         if: steps.changesets.outputs.published == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.published-packages }}
         run: |
           echo "url=$(gh release view --json url -q .url)" >> "$GITHUB_OUTPUT"
           echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '.[] | "\(.name)@\(.version)"' | paste -sd ', ' -)" >> "$GITHUB_OUTPUT"

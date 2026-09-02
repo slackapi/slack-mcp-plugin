@@ -61,7 +61,7 @@ npx skills add slackapi/slack-skills-plugin -a opencode
 
 Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents](https://github.com/vercel-labs/skills#supported-agents) for the full list of agents and their identifiers.
 
-This installs the skills only. There is no MCP server on this path, so the `slack-search` skill cannot query your workspace.
+This installs the skills only. There is no MCP server on this path, which causes some issues (e.g., the slack-search skill cannot query your workspace).
 
 ---
 

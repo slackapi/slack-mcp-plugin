@@ -113,6 +113,9 @@ If they need inspiration, suggest examples — several map directly onto a ready
 - "A dashboard home tab with a welcome header, key metrics in fields, and quick-action buttons" (Dashboard Home Tab)
 - "A settings modal with dropdowns, checkboxes, and a time picker" (Settings Modal with Multiple Input Types)
 - "A table of sprint tasks with status and points" (Data Table)
+- "A poll where teammates vote with buttons and see a live tally" (Poll Message)
+- "A multi-step setup wizard modal with a step indicator" (Multi-Step Wizard Modal)
+- "A first-run home tab that points new users to their first action" (Empty State Home Tab)
 
 Get enough detail to plan the layout before generating any JSON.
 

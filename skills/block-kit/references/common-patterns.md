@@ -375,3 +375,167 @@ A modal combining different input types for a settings/preferences form.
 ```
 
 **Customization points:** Input types, options, initial values, adding `hint` text to inputs, marking fields as `optional`.
+
+---
+
+## Poll Message [M]
+
+A poll where each option is a section with a Vote button accessory and a running tally. The app updates the message (`chat.update`) as votes arrive.
+
+```json
+{
+  "channel": "C0123456789",
+  "text": "Poll: Where should we hold the team offsite?",
+  "blocks": [
+    {
+      "type": "header",
+      "text": { "type": "plain_text", "text": "Where should we hold the team offsite?" }
+    },
+    {
+      "type": "section",
+      "text": { "type": "mrkdwn", "text": "Vote by clicking an option. Poll closes *Friday at 5pm*." }
+    },
+    { "type": "divider" },
+    {
+      "type": "section",
+      "block_id": "poll_option_tahoe",
+      "text": { "type": "mrkdwn", "text": "*Lake Tahoe*\n`████████░░` 8 votes" },
+      "accessory": {
+        "type": "button",
+        "text": { "type": "plain_text", "text": "Vote" },
+        "action_id": "vote_tahoe",
+        "value": "tahoe"
+      }
+    },
+    {
+      "type": "section",
+      "block_id": "poll_option_portland",
+      "text": { "type": "mrkdwn", "text": "*Portland*\n`████░░░░░░` 4 votes" },
+      "accessory": {
+        "type": "button",
+        "text": { "type": "plain_text", "text": "Vote" },
+        "action_id": "vote_portland",
+        "value": "portland"
+      }
+    },
+    {
+      "type": "section",
+      "block_id": "poll_option_remote",
+      "text": { "type": "mrkdwn", "text": "*Fully remote*\n`█░░░░░░░░░` 1 vote" },
+      "accessory": {
+        "type": "button",
+        "text": { "type": "plain_text", "text": "Vote" },
+        "action_id": "vote_remote",
+        "value": "remote"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": "13 votes | Created by <@U0123456789> | One vote per person" }
+      ]
+    }
+  ]
+}
+```
+
+**Customization points:** Options (one section per option), tally rendering (the bar is just `mrkdwn` text — regenerate it and `chat.update` the message on each vote), close date, voting rules in the context footer. For anonymous polls, omit voter names from the tally text.
+
+---
+
+## Multi-Step Wizard Modal [V]
+
+Step 1 of a multi-step modal flow. A context block shows progress, and `submit` reads "Next" instead of a final verb. On submission, the app swaps in the next step's view (`response_action: "update"` from the `view_submission` handler, or `views.update`), carrying collected values forward in `private_metadata`.
+
+```json
+{
+  "type": "modal",
+  "callback_id": "project_wizard_step_1",
+  "private_metadata": "{\"step\": 1}",
+  "title": { "type": "plain_text", "text": "New Project" },
+  "submit": { "type": "plain_text", "text": "Next" },
+  "close": { "type": "plain_text", "text": "Cancel" },
+  "blocks": [
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": "*Step 1 of 3* — Project basics" }
+      ]
+    },
+    {
+      "type": "input",
+      "block_id": "name_block",
+      "label": { "type": "plain_text", "text": "Project name" },
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "project_name",
+        "placeholder": { "type": "plain_text", "text": "e.g. Q3 launch" }
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "type_block",
+      "label": { "type": "plain_text", "text": "Project type" },
+      "element": {
+        "type": "static_select",
+        "action_id": "project_type",
+        "placeholder": { "type": "plain_text", "text": "Choose a type" },
+        "options": [
+          { "text": { "type": "plain_text", "text": "Feature launch" }, "value": "launch" },
+          { "text": { "type": "plain_text", "text": "Internal tooling" }, "value": "tooling" },
+          { "text": { "type": "plain_text", "text": "Research" }, "value": "research" }
+        ]
+      }
+    }
+  ]
+}
+```
+
+**Customization points:** Step count and labels in the context block, inputs per step, a distinct `callback_id` per step so the handler knows which step was submitted. Accumulate earlier answers in `private_metadata` (a string, max 3,000 chars — serialize JSON into it). On the final step, change `submit` to the completing verb (e.g. "Create").
+
+---
+
+## Empty State Home Tab [H]
+
+A first-run Home tab for a user with no data yet: explain what they'll see here, then point them at one primary action. Complements the Dashboard Home Tab, which is the populated version of the same surface.
+
+```json
+{
+  "type": "home",
+  "blocks": [
+    {
+      "type": "header",
+      "text": { "type": "plain_text", "text": "Welcome to AppName" }
+    },
+    {
+      "type": "section",
+      "text": { "type": "mrkdwn", "text": "This is your dashboard. Once you create a project, you'll see its status, open tasks, and recent activity here." }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "Create your first project" },
+          "style": "primary",
+          "action_id": "create_first_project_btn"
+        },
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": "View tutorial" },
+          "url": "https://example.com/tutorial",
+          "action_id": "view_tutorial_btn"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        { "type": "mrkdwn", "text": "Questions? Ask in <#C0123456789> or see the <https://example.com/docs|docs>." }
+      ]
+    }
+  ]
+}
+```
+
+**Customization points:** The explanation text (say what the populated tab will show, not just "nothing here"), the primary action, help links in the context footer. The app decides at `views.publish` time whether to render this or the Dashboard Home Tab.

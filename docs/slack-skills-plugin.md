@@ -52,14 +52,16 @@ The skills can be installed on their own into other coding agents with [`npx ski
 
 ```bash
 # Install the skills for a coding agent, named by its own identifier
-npx skills add slackapi/slack-skills-plugin -a <agent>
+npx skills add slackapi/slack-skills-plugin -y -a <agent>
 
 # For example, Gemini CLI or OpenCode
-npx skills add slackapi/slack-skills-plugin -a gemini-cli
-npx skills add slackapi/slack-skills-plugin -a opencode
+npx skills add slackapi/slack-skills-plugin -y -a gemini-cli
+npx skills add slackapi/slack-skills-plugin -y -a opencode
 ```
 
 Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents](https://github.com/vercel-labs/skills#supported-agents) for the full list of agents and their identifiers.
+
+The `-y` flag installs every skill without prompting. Drop it to choose skills from a list, or pass `-s <skill>` to name the ones you want.
 
 This installs the skills only. There is no MCP server on this path, which causes some issues (e.g., the slack-search skill cannot query your workspace).
 

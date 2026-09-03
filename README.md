@@ -46,14 +46,16 @@ The skills install into other coding agents with [`npx skills`][npx-skills], no 
 
 ```bash
 # Install the skills for a coding agent, named by its own identifier
-npx skills add slackapi/slack-skills-plugin -a <agent>
+npx skills add slackapi/slack-skills-plugin -y -a <agent>
 
 # For example, Gemini CLI or OpenCode
-npx skills add slackapi/slack-skills-plugin -a gemini-cli
-npx skills add slackapi/slack-skills-plugin -a opencode
+npx skills add slackapi/slack-skills-plugin -y -a gemini-cli
+npx skills add slackapi/slack-skills-plugin -y -a opencode
 ```
 
 Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents][npx-skills] for the full list of agents and their identifiers. Add `-g` to install for your user instead of the current project.
+
+The `-y` flag installs every skill without prompting. Drop it to choose skills from a list, or pass `-s <skill>` to name the ones you want.
 
 This path carries the skills only: no commands, and no MCP server.
 

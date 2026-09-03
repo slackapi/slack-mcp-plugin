@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Codex, Claude Code, Cursor, and other coding agents.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Codex, Cursor, and other coding agents.
 
 Installing the plugin sets up two things:
 
@@ -15,7 +15,15 @@ The Slack MCP Server connection is only available when using with Claude Code an
 
 ## Installing the plugin
 
-Read on for instructions on installing the Plugin for your AI tool of your choice, whether it be [Codex](#codex-install), [Claude Code](#claude-code-install), [Cursor](#cursor-install) or [other coding agents](#other-agents-install).
+Read on for instructions on installing the Plugin for your AI tool of your choice, whether it be [Claude Code](#claude-code-install), [Codex](#codex-install), [Cursor](#cursor-install) or [other coding agents](#other-agents-install).
+
+### Installing the plugin for Claude Code {#claude-code-install}
+
+The plugin is published on the [official Claude marketplace](https://claude.com/plugins/slack). You can install the plugin directly from a Claude Code session with a slash command:
+
+```sh
+/plugin install slack@claude-plugins-official
+```
 
 ### Installing the plugin for Codex {#codex-install}
 
@@ -27,14 +35,6 @@ codex plugin add slack@slack
 ```
 
 As the Slack MCP Server is not available on Codex yet, this install the skills only. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace. 
-
-### Installing the plugin for Claude Code {#claude-code-install}
-
-The plugin is published on the [official Claude marketplace](https://claude.com/plugins/slack). You can install the plugin directly from a Claude Code session with a slash command:
-
-```sh
-/plugin install slack@claude-plugins-official
-```
 
 ### Installing the plugin for Cursor {#cursor-install}
 

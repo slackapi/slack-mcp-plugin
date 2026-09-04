@@ -77,7 +77,7 @@ Most of the skills work on their own, without a connection to the [Slack MCP ser
 | `create-slack-app` | Scaffold a new Slack app or agent with the [Slack CLI](/tools/slack-cli) and [Bolt](/tools#bolt) (JavaScript or Python). | _"Scaffold a new Bolt for JavaScript app that listens for the `app_mention` event."_ |
 | `slack-api` | Discover, navigate, and call [Web API methods](/apis/web-api), surfacing info on required scopes, pagination, rate limits, and error handling. | _"Which Web API method posts a message to a channel, and what scopes does it need?"_ |
 | `slack-cli` | Create, run, and manage Slack apps from the terminal with the [Slack CLI](/tools/slack-cli), and search the Slack docs from the command line. | _"Run my Slack app locally and tail the logs."_ |
-| `slack-docs` |Find and read the right Slack developer docs page, so Slack platform answers come from the live docs rather than memory. | _"How does the Events API delivery model work?"_ |
+| `slack-docs` | Find and read the right Slack developer docs page, so Slack platform answers come from the live docs rather than memory. | _"How does the Events API delivery model work?"_ |
 | `slack-messaging` | Compose well-formatted Slack messages using standard markdown. | _"Draft a release announcement message with a bulleted list of changes."_ |
 | `slack-search` | Search Slack effectively to find messages, files, channels, and people. Requires a Slack MCP Server connection. | _"Find the channel where we discuss the platform roadmap."_ |
 | `test-slack-app` | Run an existing Slack app in a [developer sandbox](/tools/developer-sandboxes) and get guided, source-specific steps to confirm it works in Slack. | _"Help me check that my Slack app actually works."_ |

@@ -49,6 +49,7 @@ indent-style = "space"
 include = [
     "skills/**/*.md",
     "commands/*.md",
+    "docs/**/*.md",
     "README.md",
     "AGENTS.md",
     ".github/maintainers_guide.md",

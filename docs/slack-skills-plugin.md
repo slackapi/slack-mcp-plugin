@@ -1,6 +1,6 @@
 # Slack MCP and Skills Plugin
 
-The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, and Codex.
+The Slack MCP and Skills Plugin for AI tools bundles together a set of skills that help you develop on the Slack platform with the [Slack MCP Server](/ai/slack-mcp-server). You can use the plugin with Claude Code, Cursor, Codex, and other coding agents.
 
 Installing the plugin sets up two things:
 
@@ -15,7 +15,7 @@ On Codex, the plugin installs the skills only. The Slack MCP server is not yet a
 
 ## Installing the plugin
 
-You can install the plugin for Claude Code, Cursor, or Codex.
+You can install the plugin for Claude Code, Cursor, Codex, and other coding agents.
 
 ### Installing the plugin for Claude Code
 
@@ -45,6 +45,25 @@ codex plugin add slack@slack
 ```
 
 This installs the skills only. Because the Slack MCP server is not yet available on Codex, the `slack-search` skill cannot query your workspace there.
+
+### Installing the skills for other agents
+
+The skills can be installed on their own into other coding agents with [`npx skills`](https://github.com/vercel-labs/skills), naming the agent you want:
+
+```bash
+# Install the skills for a coding agent, named by its own identifier
+npx skills add slackapi/slack-skills-plugin -y -a <agent>
+
+# For example, Gemini CLI or OpenCode
+npx skills add slackapi/slack-skills-plugin -y -a gemini-cli
+npx skills add slackapi/slack-skills-plugin -y -a opencode
+```
+
+Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `pi`. See [supported agents](https://github.com/vercel-labs/skills#supported-agents) for the full list of agents and their identifiers.
+
+The `-y` flag installs every skill without prompting. Drop it to choose skills from a list, or pass `-s <skill>` to name the ones you want.
+
+This installs the skills only. There is no MCP server on this path, which causes some issues (e.g., the slack-search skill cannot query your workspace).
 
 ---
 

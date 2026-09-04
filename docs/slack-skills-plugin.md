@@ -9,7 +9,7 @@ Installing the plugin sets up two things:
 
 The Slack MCP server is configured automatically when the plugin loads. You'll be prompted to authenticate into your Slack workspace via OAuth. Full setup details vary depending on the AI tool you are using.
 
-The Slack MCP Server connection is only available when using with Claude Code and Cursor. For Codex and other coding agents, the plugin installs the skills only. You won't experience an OAuth prompt since it's not connecting to the Slack MCP server. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace. 
+The Slack MCP Server connection is only available when using with Claude Code and Cursor. For Codex and other coding agents, the plugin installs the skills only. You won't experience an OAuth prompt since it's not connecting to the Slack MCP server. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace.
 
 ---
 
@@ -34,7 +34,7 @@ codex plugin marketplace add slackapi/slack-skills-plugin
 codex plugin add slack@slack
 ```
 
-As the Slack MCP Server is not available on Codex yet, this install the skills only. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace. 
+As the Slack MCP Server is not available on Codex yet, this install the skills only. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace.
 
 ### Installing the plugin for Cursor {#cursor-install}
 
@@ -63,7 +63,7 @@ Other popular agents include `crush`, `devin`, `hermes-agent`, `openclaw`, and `
 
 The `-y` flag installs every skill without prompting. Drop it to choose skills from a list, or pass `-s <skill>` to name the ones you want.
 
-As the Slack MCP Server is not supported via this path, this install the skills only. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace. 
+As the Slack MCP Server is not supported via this path, this install the skills only. Your tool also won't be able to utilize the `slack-search` skill, as it needs the Slack MCP Server connection to query your workspace.
 
 ---
 

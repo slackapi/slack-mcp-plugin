@@ -126,6 +126,8 @@ Slack auth is **per-team**, not a single boolean. Run the seamless login flow be
 
 `SLACK_CMD auth list` showing other teams is **not** a reason to skip login — those are different teams. Ask the developer which team they want, then run the flow.
 
+The flow below is the same for every kind of workspace. `/slackauthticket` works in any workspace the developer belongs to, whether that is a developer sandbox, a Free Team, or a production workspace, so there is no sandbox-specific login. Which target to prefer is the `slack:create-slack-app` skill's call (**Step 3: Choose Where to Install the App**).
+
 ### Inspect existing auth (optional)
 
 ```bash

@@ -1,6 +1,6 @@
 ---
 name: create-slack-app
-description: 'Use when a developer wants to create, scaffold, or bootstrap a new Slack app or agent from scratch with the Slack CLI. Covers prerequisites, authentication, choosing a workspace to install into (developer sandbox, Free Team, or production), and creating + running a project from a Bolt (JS or Python) template locally. Trigger on "create a Slack app", "new Bolt app", "start a Slack agent".'
+description: 'Use when a developer wants to create, scaffold, or bootstrap a new Slack app or agent from scratch with the Slack CLI. Covers prerequisites, authentication, choosing a workspace to install into, and creating + running a project from a Bolt (JS or Python) template locally. Trigger on "create a Slack app", "new Bolt app", "start a Slack agent".'
 argument-hint: "[bolt-js | bolt-python]"
 ---
 

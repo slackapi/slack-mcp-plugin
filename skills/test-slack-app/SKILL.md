@@ -1,6 +1,6 @@
 ---
 name: test-slack-app
-description: Use when a developer wants to test, try out, smoke-test, verify, or confirm that a Slack app built with the Slack CLI (or a plain Bolt app) actually works, by running it in a throwaway workspace (a developer sandbox or a Free Team, never a workspace with real users) with `slack run` and exercising its real slash commands, shortcuts, events, actions, modals, App Home, and assistant surfaces. Also covers `slack doctor` and `slack manifest validate` health checks before hands-on testing.
+description: Use when a developer wants to test, try out, smoke-test, verify, or confirm that a Slack app built with the Slack CLI (or a plain Bolt app) actually works, by running it in a developer sandbox or a Free Team, never a workspace with real users, with `slack run` and exercising its real slash commands, shortcuts, events, actions, modals, App Home, and assistant surfaces. Also covers `slack doctor` and `slack manifest validate` health checks before hands-on testing.
 ---
 
 # Test Slack App
@@ -9,7 +9,7 @@ Help a developer confirm that a Slack app they already built actually works. Thi
 
 The approach is simple and safe:
 
-1. **Run the app in a throwaway workspace:** a developer sandbox for preference, or a Free Team the developer created for this. Never a workspace with real coworkers in it.
+1. **Run the app in a developer sandbox or a Free Team:** a sandbox for preference, or a Free Team the developer created for this. Never a workspace with real coworkers in it.
 2. **Read the app's source** to learn what it actually listens for.
 3. **Hand the developer concrete steps** to perform in Slack, then help them confirm the app responds.
 
@@ -23,13 +23,13 @@ This is guided manual checking, not an automated test suite: you drive the setup
 
 Use the `slack:slack-cli` skill (**Step 1: Detect the Slack CLI**) to check whether the public Slack CLI is installed and resolve its command name. The fingerprint check, alias fallback, and install instructions all live there; do not duplicate them here. Refer to the resolved command as `SLACK_CMD` throughout. If the CLI is not installed, guide the developer through that same step to install it, since running the app needs it.
 
-### 1b. Make sure there is a throwaway workspace to test in
+### 1b. Make sure there is a safe workspace to test in
 
 Testing belongs in a workspace nobody is working in: a developer sandbox for preference, or a Free Team the developer created for this. Never a workspace with real coworkers in it.
 
 - **Explain it from the live docs, not from here.** Use the `slack:slack-docs` skill to fetch and summarize <https://docs.slack.dev/tools/developer-sandboxes.md>, so the recommendation always reflects the current docs rather than a copy that drifts out of date. Tell the developer that Slack recommends a sandbox for building and testing apps.
 - **Find the current target.** Run `SLACK_CMD auth list` for the authenticated workspaces and their team IDs, and, from the project directory, `SLACK_CMD app list` for the apps already installed and their IDs.
-- **Confirm the target is safe.** The CLI cannot tell a sandbox, a throwaway Free Team, and a workspace full of real users apart, so ask the developer which one they are pointed at. A sandbox or a Free Team they created for this is fine. A workspace with coworkers in it is not: stop and get them onto one of the other two.
+- **Confirm the target is safe.** The CLI cannot tell a sandbox, a Free Team, and a workspace full of real users apart, so ask the developer which one they are pointed at. A sandbox or a Free Team they created for this is fine. A workspace with coworkers in it is not: stop and get them onto one of the other two.
 - **If there is no safe target yet**, set one up with the `slack:create-slack-app` skill (**Step 3: Choose Where to Install the App**), which owns the ranked targets, the `sandbox list` / `sandbox create` flow, and the Developer Program links. Either path finishes in the browser, so have the developer come back here once the workspace exists and they have logged into it.
 
 ### 1c. Quick health check

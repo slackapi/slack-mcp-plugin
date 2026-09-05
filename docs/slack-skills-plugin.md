@@ -82,4 +82,4 @@ Most of the skills work on their own, without a connection to the [Slack MCP ser
 | `slack-docs` | Find and read the right Slack developer docs page, so Slack platform answers come from the live docs rather than memory. | _"How does the Events API delivery model work?"_ |
 | `slack-messaging` | Compose well-formatted Slack messages using standard markdown. | _"Draft a release announcement message with a bulleted list of changes."_ |
 | `slack-search` | Search Slack effectively to find messages, files, channels, and people. Requires a Slack MCP Server connection. | _"Find the channel where we discuss the platform roadmap."_ |
-| `test-slack-app` | Run an existing Slack app in a throwaway workspace, a [developer sandbox](/tools/developer-sandboxes) or a Free Team, and get guided, source-specific steps to confirm it works in Slack. | _"Help me check that my Slack app actually works."_ |
+| `test-slack-app` | Run an existing Slack app in a [developer sandbox](/tools/developer-sandboxes) or a Free Team, and get guided, source-specific steps to confirm it works in Slack. | _"Help me check that my Slack app actually works."_ |

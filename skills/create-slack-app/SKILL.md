@@ -45,7 +45,7 @@ The app needs a Slack workspace to install into. Three targets work and they are
 
 | Target | Best for | Cost of entry |
 |--------|----------|---------------|
-| **Developer sandbox** (recommended) | Anything the developer plans to keep building on. A free, throwaway Slack org isolated from real users. | Needs a Slack Developer Program account, which is free to join. |
+| **Developer sandbox** (recommended) | Anything the developer plans to keep building on. A free Slack org isolated from real users. | Needs a Slack Developer Program account, which is free to join. |
 | **Free Team** (second choice) | Starting right now, when Developer Program signup is the thing in the way. A free workspace the developer creates and owns. | Capped at 10 apps per workspace. |
 | **Existing production workspace** (last resort) | Only when the app must reach real data or real coworkers. | Usually gated by admin approval, and the developer may not be the admin. |
 
@@ -82,7 +82,7 @@ What to tell them:
 
 - Everything this skill builds works there. Bolt apps install and run fine on the free plan.
 - The workspace is capped at **10 apps**. Past that the CLI reports `service_limits_exceeded`.
-- Keep it a throwaway. A Free Team they have invited coworkers into is a production workspace for the purposes of 3c.
+- Do not invite coworkers into it. A Free Team with real users in it is a production workspace for the purposes of 3c.
 
 ### 3c. Existing production workspace (last resort)
 
